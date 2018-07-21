@@ -7,8 +7,6 @@ from django.utils import timezone
 
 from PIL import Image
 
-import pdb
-
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)

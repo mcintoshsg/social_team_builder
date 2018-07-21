@@ -1382,6 +1382,7 @@ hr {
   float: right;
   color: #a5c4c2;
 }
+
 /* line 68, ../sass/circle/components/lists.sass */
 .circle--clone--remove:hover {
   color: #537d7b;
@@ -1390,6 +1391,7 @@ hr {
 li:only-child .circle--clone--remove {
   display: none;
 }
+
 /* line 74, ../sass/circle/components/lists.sass */
 .circle--pill--list {
   margin: 0;

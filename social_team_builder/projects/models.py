@@ -2,7 +2,6 @@ from django.conf import settings
 from django.db import models
 
 
-
 class Skill(models.Model):
     skill_type = models.CharField(max_length=100, unique=True)
 
@@ -11,11 +10,10 @@ class Skill(models.Model):
 
 
 class UserSkill(models.Model):
-    skill = models.ForeignKey(Skill, related_name='user_skill',
+    skill = models.ForeignKey(Skill,
                               on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name='user',
-                             on_delete=models.CASCADE)
+                             related_name='user')
 
     def __str__(self):
         return '{} / {}'.format(
@@ -27,21 +25,25 @@ class UserSkill(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True, default='')
-    timeline = models.TextField(blank=True)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='owner')
+    requirements = models.CharField(max_length=30, null=True)
+    timeline = models.CharField(max_length=30, null=False)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
     completed = models.BooleanField(default=False)
 
     def __str__(self):
         return '{} / {}'.format(
             self.name,
-            self.description
+            self.owner.display_name
         )
 
+    class Meta:
+        ordering = ['id']
 
-class ProjectPosition(models.Model):
-    role = models.ForeignKey(Skill, related_name='skill')
-    project = models.ForeignKey(Project, related_name='project_position')
-    requirements = models.CharField(max_length=255, unique=False)
+
+class Position(models.Model):
+    skill = models.ForeignKey(Skill)
+    project = models.ForeignKey(Project)
+    description = models.CharField(max_length=255, unique=False)
     is_filled = models.BooleanField(default=False)
     filled_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   related_name='filled_by', blank=True,
@@ -51,27 +53,28 @@ class ProjectPosition(models.Model):
         if self.filled_by:
             return "{} / {} / filled_by {}".format(
                 self.project.name,
-                self.role,
+                self.skill,
                 self.filled_by.display_name
             )
         else:
             return "{} / {} / not filled".format(
                 self.project.name,
-                self.role
+                self.skill
             )
 
 
-class ProjectApplication(models.Model):
-    position = models.ForeignKey(ProjectPosition,
-                                 related_name='project_applications')
-    applicant = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                  related_name='applicant')
+class Applications(models.Model):
+    position = models.ForeignKey(Position)
+    applicant = models.ForeignKey(settings.AUTH_USER_MODEL)
+    status = models.CharField(max_length=30, default='Pending')
 
     class Meta:
         unique_together = ['position', 'applicant']
+        verbose_name_plural = 'Applications'
 
     def __str__(self):
-        return "{} / applied for by {}".format(
+        return "{} / applied for by {} application in {}".format(
             self.position,
-            self.applicant
+            self.applicant,
+            self.status
         )

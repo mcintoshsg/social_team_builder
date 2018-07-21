@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^projects/', include('projects.urls', namespace='projects')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

@@ -7,6 +7,7 @@ $( document ).ready(function() {
   $(".circle--clone--list").on("click", ".circle--clone--add", function(){
     var parent = $(this).parent("li");
     var copy = parent.clone();
+    var totalForms = $('#id_Form-TOTAL_FORMS');
     parent.after(copy);
     copy.find("input, textarea, select").val("");
     copy.find("*:first-child").focus();
