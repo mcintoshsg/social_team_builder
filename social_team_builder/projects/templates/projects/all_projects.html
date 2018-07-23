@@ -9,9 +9,7 @@
   <div class="circle--actions--bar">
     <div class="bounds">
       <div class="grid-100">
-        <a class="button" href="{% url 'projects:edit' %}">Edit Project</a>
-        <a class="button button-text" href="{% url 'projects:delete' %}">Delete Project</a>
-        <a class="button button-text" href="{% url 'projects:new' %}">Add Project</a>
+        <a class="button" href="{% url 'projects:new' %}">Add Project</a>
       </div>
     </div>
   </div>
@@ -45,7 +43,9 @@
                 {% endfor %}  
               </ul>
             </div>
-        </div>
+            <a class="button button-text" href="{% url 'projects:edit' pk=project.pk %}">Edit Project</a>
+            <a class="button button-text" href="{% url 'projects:delete' pk=project.pk %}">Delete Project</a>
+\        </div>
 
       <div class="grid-25 grid-push-5">
         <div class="circle--secondary--module">

@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Skill(models.Model):
-    skill_type = models.CharField(max_length=100, unique=True)
+    skill_type = models.CharField(max_length=100, unique=True, null=True)
 
     def __str__(self):
         return self.skill_type
@@ -11,7 +11,8 @@ class Skill(models.Model):
 
 class UserSkill(models.Model):
     skill = models.ForeignKey(Skill,
-                              on_delete=models.CASCADE)
+                              on_delete=models.CASCADE,
+                              related_name='skill')
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name='user')
 
@@ -20,6 +21,9 @@ class UserSkill(models.Model):
             self.user.username,
             self.skill.skill_type
         )
+
+    class Meta:
+        unique_together = ['skill', 'user']
 
 
 class Project(models.Model):
@@ -43,7 +47,7 @@ class Project(models.Model):
 class Position(models.Model):
     skill = models.ForeignKey(Skill)
     project = models.ForeignKey(Project)
-    description = models.CharField(max_length=255, unique=False)
+    description = models.TextField(blank=True, default='')
     is_filled = models.BooleanField(default=False)
     filled_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   related_name='filled_by', blank=True,

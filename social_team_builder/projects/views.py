@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import (ListView, CreateView, DeleteView,
                                   UpdateView, DetailView)  
 from django.urls import reverse
@@ -8,7 +7,6 @@ from django.urls import reverse
 from . import forms
 from . import models
 
-import pdb
 
 class AllProjectsView(LoginRequiredMixin, ListView):
     '''
@@ -21,13 +19,13 @@ class AllProjectsView(LoginRequiredMixin, ListView):
     # paginate_by = 1
     context_object_name = 'open_projects'
 
-    def get_query_set(self):
+    def get_queryset(self):
         ''' get the queryset to use in the template '''
         return models.Project.objects.filter(
                             completed=False
                             ).prefetch_related(
                             'position_set'
-                            ).order_by(id)
+                            ).order_by('id')
 
 
 class NewProjectView(LoginRequiredMixin, CreateView):
@@ -44,9 +42,9 @@ class NewProjectView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         # get any data already associated with the context
         context = super(NewProjectView, self).get_context_data(**kwargs)
-        pdb.set_trace()
         if self.request.POST:
-            context['position_form'] = forms.PositionFormSet(self.request.POST)
+            context['position_form'] = forms.PositionFormSet(
+                                                data=self.request.POST)
         else:
             context['position_form'] = forms.PositionFormSet()
         return context
@@ -54,7 +52,6 @@ class NewProjectView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         # get the positions from the context
         context = self.get_context_data()
-        pdb.set_trace()
         positions = context['position_form']
         if form.is_valid():
             form = form.save(commit=False)
@@ -76,6 +73,9 @@ class NewProjectView(LoginRequiredMixin, CreateView):
                              '{} Project created successfully'.format(
                               project.name
                               ))
+        else:
+            # add in a more robust set of fail conditions
+            print(positions.errors)                
         return super(NewProjectView, self).form_valid(form)
 
     def get_success_url(self):
@@ -127,7 +127,7 @@ class ApplyView(AllProjectsView):
 class ApplicationsView(LoginRequiredMixin, ListView):
     '''
     This controller lists out the following:
-    1. status of all of a current users applications to projects
+    1. status of all of a current users applications to other projects
     2. list of all applicants for current users projects
     3  list of all current users projects
     4. list of all current users project positions
@@ -139,20 +139,22 @@ class ApplicationsView(LoginRequiredMixin, ListView):
     model = models.Applications
     context_object_name = 'applications'
 
+    def get_queryset(self):
+        return models.Applications.objects.filter(
+                                        applicant=self.request.user)
+
     def get_context_data(self, **kwargs):
         # get any data already associated with the context
         context = super(ApplicationsView, self).get_context_data(**kwargs)
-        owned_projects = models.Project.objects.filter(owner=self.request.user)
-
-        # get all positions for user projects
-        try:
-            positions = owned_projects.get().position_set.all()
-        except ObjectDoesNotExist:
-            context['positions'] = None
-        else:
-            context['positions'] = positions
+        # self.object_list = self.get_queryset()
+        owned_projects = models.Project.objects.filter(
+                                                owner=self.request.user
+                                                ).prefetch_related(
+                                                    'position_set'
+                                                )
 
         # update the context
         context['user'] = self.request.user
         context['owned_projects'] = owned_projects
+        # context['object_list'] = self.object_list
         return context

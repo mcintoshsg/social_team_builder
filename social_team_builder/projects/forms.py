@@ -2,7 +2,6 @@ from django import forms
 
 from . import models
 
-import pdb
 
 class ProjectForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(
@@ -75,6 +74,5 @@ PositionFormSet = forms.modelformset_factory(
     models.Position,
     form=PositionForm,
     extra=1,
-    max_num=3,
     formset=BasePositionFormSet
 )

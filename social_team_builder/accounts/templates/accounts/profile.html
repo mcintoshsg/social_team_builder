@@ -9,7 +9,7 @@
     <nav class="bounds">
       <ul class="circle--pill--list">
         <li><a href="{% url 'projects:applications' %}">Applications</a></li>
-        <li><a class="selected" href="profile.html">Profile</a></li>
+        <li><a class="selected" href="{% url 'accounts:profile' pk=user.id %}">Profile</a></li>
       </ul>
     </nav>
   </div>
@@ -21,9 +21,9 @@
       </div>
       <div class="circle--fluid--cell circle--fluid--secondary">
         {% if user != profile_user %}
-          <a class="button-inactive icon-on-left">Edit</a>
-        {% else %}
           <a class="button button-primary button-inactive">Edit</a>
+        {% else %}
+          <a class="button icon-on-left" href="{% url 'accounts:edit' pk=user.id %}">Edit</a>
         {% endif %}  
       </div>
     </div>
@@ -33,6 +33,7 @@
       <div class="circle--article--body">
         {{ profile_user.bio | linebreaks }}
       </div>  
+      
       <h2>Past Projects</h2>
       <table class="u-full-width circle--table">
         <thead>
@@ -49,7 +50,7 @@
               </td>
             {% empty %}
               <td>
-                <h3>No projects</h3>
+                <h3>You have no past projects</h3>
               </td>
               {% for position in positions %}
                 <td class="circle--cell--right">
@@ -65,9 +66,7 @@
     <div class="grid-25 grid-push-5">
 
       <div class="circle--secondary--module">
-        <div class="circle--primary--avatar">
           <img src="{% static '/media/' %}{{ profile_user.avatar }}" alt="My image"/>
-        </div>
       </div>
 
       <div class="circle--secondary--module">
@@ -75,6 +74,8 @@
         <ul class="unloaded">
           {% for skill in user_skills %}
             <li><a>{{ skill.skill }}</a></li>
+          {% empty %}
+            <li> You have yet to log your skills</li>
           {% endfor %}  
         </ul>
       </div>
