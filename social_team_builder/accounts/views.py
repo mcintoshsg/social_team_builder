@@ -80,7 +80,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
 class EditProfileView(LoginRequiredMixin, UpdateView):
     '''
-     Edit the current user profile   
+     Allow editing of the current user profile
     '''
     model = User
     template_name = 'accounts/edit_profile.html'
@@ -94,7 +94,6 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         3. Projects: What project they are owners of and what are the
         projects they have  worked on i.e. completed.
         '''
-        # pdb.set_trace()
         # get any data already associated with the context
         context = super(EditProfileView, self).get_context_data(**kwargs)
         # pass in the skillformset so as to allow users to add new skills
@@ -104,9 +103,10 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
                                         form_kwargs={'user': self.request.user}
                                         )
         else:
-            user_skills = models.UserSkill.objects.filter(
-                                            user=self.request.user)
-            context['skill_form'] = forms.SkillFormSet(queryset=user_skills)
+            user_skills = models.Skill.objects.filter(
+                                            skill__user=self.request.user)
+            context['skill_form'] = forms.SkillFormSet(
+                                            queryset=user_skills)
 
         # get the users projects to pass into the context - where they were
         # the owner and where they have worked on a project that has completed
@@ -142,25 +142,27 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         '''
         context = self.get_context_data()
         skill_forms = context['skill_form']
-        pdb.set_trace()
+        # pdb.set_trace()
         if form.is_valid():
             form.save()
-            if skill_forms.is_valid():
-                for skill_form in skill_forms:
-                    # make changes before committing ot the database
-                    skill_form = skill_form.save(commit=False)
-                    skill_form.user = self.request.user
+        if skill_forms.is_valid():
+            for skill_form in skill_forms:
+                skill_form = skill_form.save(commit=False)
+                try:
+                    models.Skill.objects.get(skill_type=skill_form.skill_type)
+                except ObjectDoesNotExist:
                     skill_form.save()
-                # And notify our users that it worked
-                messages.success(
-                            self.request,
-                            '{}, your profile was successfully updated'.format(
-                             self.request.user.display_name
-                            ))
-            # else:
-            #     # add in a more robust set of fail conditions
-            #     print(skill_forms.errors)
-            return super(EditProfileView, self).form_valid(form)
+                     
+            # And notify our users that it worked
+            messages.success(
+                        self.request,
+                        '{}, your profile was successfully updated'.format(
+                         self.request.user.display_name
+                        ))
+        else:
+            # add in a more robust set of fail conditions
+            print(skill_forms.errors)
+        return super(EditProfileView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse('accounts:profile',

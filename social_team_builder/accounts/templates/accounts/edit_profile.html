@@ -106,8 +106,8 @@
         {% for form in skill_form %}
           <ul id='skills' class="circle--clone--list">
             <li>
-              <!-- reverse lookup to get the skill_type -->
-              {{ form.skill }}
+              {{ form.id }}
+              {{ form.skill_type }}
               <!-- <a class="circle--clone--add">Add Skill</a>
               <a class="circle--clone--remove">Remove</a> -->
             </li>
