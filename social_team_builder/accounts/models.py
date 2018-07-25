@@ -7,6 +7,7 @@ from django.utils import timezone
 
 from PIL import Image
 
+import pdb
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -32,9 +33,9 @@ class User(AbstractUser):
         ''' resize the image before saving to the database '''
         if self.avatar != self.__original_avatar:
             try:
-                image = Image.open(self.avatar)
+                image = Image.open(self.avatar['image'])
                 image.thumbnail((300, 300), Image.ANTIALIAS)
-                new_name = 'tn_{}'.format(self.avatar.name)
+                new_name = 'tn_{}'.format(self.avatar['image'].name)
                 path = settings.MEDIA_ROOT + '/' + new_name
                 image.save(path, 'JPEG')
                 self.avatar = new_name

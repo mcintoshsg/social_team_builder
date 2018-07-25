@@ -99,14 +99,13 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         # pass in the skillformset so as to allow users to add new skills
         if self.request.POST:
             context['skill_form'] = forms.SkillFormSet(
-                                        data=self.request.POST,
-                                        form_kwargs={'user': self.request.user}
-                                        )
+                                self.request.POST,
+                                form_kwargs={'user': self.request.user})
         else:
             user_skills = models.Skill.objects.filter(
                                             skill__user=self.request.user)
             context['skill_form'] = forms.SkillFormSet(
-                                            queryset=user_skills)
+                                                    queryset=user_skills)
 
         # get the users projects to pass into the context - where they were
         # the owner and where they have worked on a project that has completed
@@ -142,17 +141,13 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         '''
         context = self.get_context_data()
         skill_forms = context['skill_form']
-        # pdb.set_trace()
         if form.is_valid():
+            form = form.save(commit=False)
+            form.avatar = self.request.FILES
             form.save()
         if skill_forms.is_valid():
             for skill_form in skill_forms:
-                skill_form = skill_form.save(commit=False)
-                try:
-                    models.Skill.objects.get(skill_type=skill_form.skill_type)
-                except ObjectDoesNotExist:
-                    skill_form.save()
-                     
+                skill_form.save()
             # And notify our users that it worked
             messages.success(
                         self.request,
