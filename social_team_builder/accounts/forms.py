@@ -1,13 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 
 
 # from . models import User
 from projects.models import UserSkill, Skill
 
-import pdb
 
 class UserCreateForm(UserCreationForm):
     class Meta:

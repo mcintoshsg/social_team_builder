@@ -12,8 +12,6 @@ from . models import User
 from projects import models
 
 
-import pdb
-
 class SignOutView(RedirectView):
     url = reverse_lazy("home")
 

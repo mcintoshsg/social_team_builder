@@ -37,15 +37,20 @@
                     {% if position.is_filled %}
                       <a class="button button-primary button-inactive">Position Filled</a>
                     {% else %}
-                      <a class="button button-primary" href="{% url 'projects:apply' pk=position.pk %}">Apply</a>
-                    {% endif %}
-                  </li>
+                      {% if user.username == project.owner.username %}
+                        <a class="button button-primary button-inactive">Apply</a>
+                        </li>
+                            <a class="button button-text" href="{% url 'projects:edit' pk=project.pk %}">Edit Project</a>
+                            <a class="button button-text" href="{% url 'projects:delete' pk=project.pk %}">Delete Project</a>
+                      {% else %}  
+                        <a class="button button-primary" href="{% url 'projects:apply' pk=position.pk %}">Apply</a>
+                        </li>
+                      {% endif %}
+                   {% endif %}
                 {% endfor %}  
               </ul>
             </div>
-            <a class="button button-text" href="{% url 'projects:edit' pk=project.pk %}">Edit Project</a>
-            <a class="button button-text" href="{% url 'projects:delete' pk=project.pk %}">Delete Project</a>
-\        </div>
+          </div>
 
       <div class="grid-25 grid-push-5">
         <div class="circle--secondary--module">

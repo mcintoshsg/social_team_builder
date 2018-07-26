@@ -1,8 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import get_object_or_404
 from django.views.generic import (ListView, CreateView, DeleteView,
-                                  UpdateView, DetailView)  
+                                  UpdateView, DetailView, RedirectView)  
+
 from django.urls import reverse
+# from braces.views import PrefetchRelatedMixin
 
 from . import forms
 from . import models
@@ -40,7 +44,6 @@ class NewProjectView(LoginRequiredMixin, CreateView):
     form_class = forms.ProjectForm
 
     def get_context_data(self, **kwargs):
-        # get any data already associated with the context
         context = super(NewProjectView, self).get_context_data(**kwargs)
         if self.request.POST:
             context['position_form'] = forms.PositionFormSet(
@@ -50,12 +53,10 @@ class NewProjectView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        # get the positions from the context
         context = self.get_context_data()
         positions = context['position_form']
         if form.is_valid():
             form = form.save(commit=False)
-            # add the current user as the project owner
             form.owner = self.request.user
             form.save()
         if positions.is_valid():
@@ -63,12 +64,9 @@ class NewProjectView(LoginRequiredMixin, CreateView):
             # iterate through all the newly created positions and add
             # the associated project
             for position in positions:
-                # make changes before committing ot the database
                 position = position.save(commit=False)
-                # associate the newly created project
                 position.project = project
                 position.save()
-            # And notify our users that it worked
             messages.success(self.request,
                              '{} Project created successfully'.format(
                               project.name
@@ -89,10 +87,23 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
 
 
 class DeleteProjectView(LoginRequiredMixin, DeleteView):
-    pass
+    model = models.Project
+    success_url = reverse_lazy("projects:all")
+
+    def delete(self, *args, **kwargs):
+        messages.success(self.request, "Project successfully deleted")
+        return super().delete(*args, **kwargs)
 
 
 class EditProjectView(LoginRequiredMixin, UpdateView):
+    pass
+
+
+class SearchProjectView(LoginRequiredMixin, ListView):
+    pass
+
+
+class FilterPorjectView(LoginRequiredMixin, ListView):
     pass
 
 
@@ -144,17 +155,35 @@ class ApplicationsView(LoginRequiredMixin, ListView):
                                         applicant=self.request.user)
 
     def get_context_data(self, **kwargs):
-        # get any data already associated with the context
         context = super(ApplicationsView, self).get_context_data(**kwargs)
-        # self.object_list = self.get_queryset()
         owned_projects = models.Project.objects.filter(
                                                 owner=self.request.user
                                                 ).prefetch_related(
                                                     'position_set'
                                                 )
-
-        # update the context
         context['user'] = self.request.user
         context['owned_projects'] = owned_projects
-        # context['object_list'] = self.object_list
         return context
+
+
+class ApplicationAcceptView(LoginRequiredMixin, RedirectView):
+    '''
+        controller to accept position applications
+    '''
+    def get_object(self):
+        return get_object_or_404(
+            models.Community,
+            slug=self.kwargs.get("slug")
+        )
+
+    def get_redirect_url(self, *args, **kwargs):
+        return self.get_object().get_absolute_url()
+
+    def get(self, request, *args, **kwargs):
+        user = get_object_or_404(models.User, username=self.kwargs['applicant'])
+        position = get_object_or_404(models.Poistion,  id=self.kwargs['pk'])
+        position.filled_by = user
+        position.is_filled = True
+        position.save()
+
+        return super().get(request, *args, **kwargs)

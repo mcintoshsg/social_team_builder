@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'apply/(?P<pk>\d+)$', views.ApplyView.as_view(), name='apply'),
     url(r"applications/", views.ApplicationsView.as_view(),
         name='applications'),
+    url(r"accept/(?P<pk>\d+)$", views.ApplicationAcceptView.as_view(),
+        name='accept'),
 ]

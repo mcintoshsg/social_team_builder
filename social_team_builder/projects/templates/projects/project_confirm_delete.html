@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+
+{% block title_tag %}Delete your message? | {{ block.super }}{% endblock %}
+
+{% block body_content %}
+<div class="bounds">
+	<div class="grid-90 centered">
+		<h1>Are you sure you want to delete this project?</h1>
+
+		<form method="POST">
+			{% csrf_token %}
+			<input type="submit" value="Yes, delete it" class="bootstrap btn btn-danger btn-large">
+			<a href="{% url 'projects:all' %}" class="bootsrap btn btn-simple btn-large btn-default">Nope, nevermind</a>
+		</form>
+	</div>
+</div>			
+{% endblock %}

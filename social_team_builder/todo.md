@@ -9,29 +9,29 @@ You're going to build a site where people can sign up to find projects that need
 
 ## Project Instructions 
 
-[ ] **Use the supplied files as static assets and example templates for your web site.**
+[X] **Use the supplied files as static assets and example templates for your web site.**
 ***
 
-[ ] **As a user of the site, I should be able to sign up for an account.**
+[X] **As a user of the site, I should be able to sign up for an account.**
 ***
 
-[ ] **As a user of the site, I should be able to log into my account.**
+[X] **As a user of the site, I should be able to log into my account.**
 ***
 
-[ ] **As a user of the site, I should be able to edit my profile.**
+[X] **As a user of the site, I should be able to edit my profile.**
 ***
 
-[ ] **As a user of the site, I should be able to upload an avatar image for my profile.**
+[X] **As a user of the site, I should be able to upload an avatar image for my profile.**
 ***
 
-[ ] **As a user of the site, I should be able to pick my skills for my profile.**
+[X] **As a user of the site, I should be able to pick my skills for my profile.**
 ***
 
-[ ] **As a user of the site, I should be able to create a project that I need help on.**
+[X] **As a user of the site, I should be able to create a project that I need help on.**
 ***
-[ ] **As a user of the site, I should be able to specify the positions my project needs help in with a name, a description, and related skill.**
+[X] **As a user of the site, I should be able to specify the positions my project needs help in with a name, a description, and related skill.**
 ***
-[ ] **As a user of the site, I should be able to see all of the applicants for my project's positions.**
+[X] **As a user of the site, I should be able to see all of the applicants for my project's positions.**
 ***
 
 [ ] **As a user of the site, I should be able to approve an applicant for a position in my project.**
@@ -47,9 +47,9 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [ ] **As a user of the site, I should be able to filter projects by the positions they need filled.**
 ***
-[ ] **As a user of the site, I should be able to apply for a position in a project.**
+[X] **As a user of the site, I should be able to apply for a position in a project.**
 ***
-[ ] **As a user of the site, I should be able to log out.**
+[X] **As a user of the site, I should be able to log out.**
 ***
 
 ## Project Structure
@@ -98,33 +98,17 @@ You're going to build a site where people can sign up to find projects that need
         - project positon
         - project responsibilities
 
+    - Poistion Model
+
+    - Application Model
+
+    - Skill Model
+
+    - UserSkill Model
+
+
 3. **Project Updates**
     - post updates against a project
     - should be able to handle code snippets
     - gets responses to updates
 
-    **Models**
-
-    - Post Updates Model
-    
-
-
-## Project capabilities
-***
-
-1. Ability to sign up for project via an email
-2. Ability to rank a user on a project
-3. Ability to view all current and past projects by type (front-end, back-end), skill set, user, 
-4. Ability to search all projects by user, skillset, type, position
-5.  As a user of the site, I should get an email verification after sign up.
-6. As a user of the site, a position should be marked as filled once I accept someone for it.
-7. As a user of the site, I should filled positions should be hidden or marked as filled so I don't apply for them.
-8. As a user of the site, I should be able to use Markdown in the "about me" part of my profile.
-9. As a user of the site, I should be able to list any skill on my profile, not just pre-selected ones.
-10. As a user of the site, my profile should list projects I've been involved with.
-11. As a user of the site, I should be able to use Markdown in my project description.
-12. As a user of the site, I should be able to use Markdown in the position descriptions.
-13. As a user of the site, I should be able to provide a listed length of involvement for a position (e.g. Designer: 10 hours/week).
-14. As a user of the site, I should be able to filter applicants by their status (approved, denied, undecided).
-15. As a user of the site, I should be able to approve or deny applicants directly from the list of applicants.
-16. As a user of the site, I should be given a list of projects that need my skill set.

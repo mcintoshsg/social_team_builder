@@ -61,7 +61,7 @@ class Position(models.Model):
                 self.filled_by.display_name
             )
         else:
-            return "{} / {} / not filled".format(
+            return "{} / {} ".format(
                 self.project.name,
                 self.skill
             )

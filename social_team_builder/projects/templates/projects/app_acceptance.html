@@ -1,0 +1,19 @@
+
+<{% extends "layout.html" %}
+{% load bootstrap4 %}
+
+{% block title_tag %}Change Your Password | {{ block.super }}{% endblock %}
+
+{% block body_content %}
+<div class="bounds">
+    <div class="grid-90 centered">
+        <h1>Accept / Reject Application</h1>
+
+        <form method="POST">
+   	    {% csrf_token %}
+   	    {% bootstrap_form form %}
+   	    <input type="submit" value="Change it" class="btn btn-default">
+        </form>
+    </div>    
+</div>
+{% endblock %}
