@@ -65,7 +65,7 @@ class Position(models.Model):
                 self.project.name,
                 self.skill
             )
-
+   
 
 class Applications(models.Model):
     position = models.ForeignKey(Position)

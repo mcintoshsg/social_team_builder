@@ -70,12 +70,23 @@
               {% for position in project.position_set.all %}  
                   <tr class="clickable-row" data-href="profile.html">
                     <td>
-                      {% for app in position.applications_set.all %}
-                        <h3><a href="{% url 'projects:accept' pk=app.position.pk %}">{{ app.applicant }}</a></h3>
-                      {% empty %}
-                       <p> No one has applied for this role </p>   
-                      {% endfor %}
-                      <p>{{ project.name }}</p>
+                    {% if position.is_filled %}
+                        <a href="{% url 'accounts:profile' pk=position.filled_by.id %}">{{ position.filled_by }}</a>
+                        <a href="" class="badge badge-pill badge-secondary">Position filled</a>
+                    {% else %}
+                        {% for app in position.applications_set.all %}
+                          {% if app.status == 'Rejected' %}
+                            <p> No pending applications </p>
+                          {% else %}  
+                            <a href="{% url 'accounts:profile' pk=app.applicant.id %}">{{ app.applicant }}</a>
+                            <a href="{% url 'projects:accept' decision=1 id=app.applicant.id pk=app.position.pk %}" class="badge badge-pill badge-success">Accept</a>
+                            <a href="{% url 'projects:accept' decision=0 id=app.applicant.id pk=app.position.pk %}" class="badge badge-pill badge-danger">Reject</a>
+                          {% endif %}
+                        {% empty %}
+                          <p> No one has applied for this role </p>   
+                        {% endfor %}
+                    {% endif %}  
+                        <p><a href="{% url 'projects:detail' pk=project.pk %}">{{ project.name }}</a></p>
                     </td>
                     <td class="circle--cell--right">
                         <span class="secondary-label">{{ position.skill }}</span>
