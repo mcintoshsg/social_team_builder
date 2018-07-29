@@ -67,7 +67,8 @@ class BasePositionFormSet(forms.BaseModelFormSet):
     '''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.queryset = models.Position.objects.none()
+        if self.queryset is None:  # this is ood !!!
+            self.queryset = models.Position.objects.none()
 
 
 PositionFormSet = forms.modelformset_factory(

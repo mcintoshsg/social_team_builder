@@ -12,7 +12,6 @@ from accounts.models import User
 from . import forms
 from . import models
 
-import pdb
 
 class AllProjectsView(LoginRequiredMixin, ListView):
     '''
@@ -83,10 +82,9 @@ class NewProjectView(LoginRequiredMixin, CreateView):
 
 
 class ProjectDetailView(LoginRequiredMixin, DetailView):
-    print('here')
     model = models.Project
-    template_name = 'projects/project_detail.html'
-    context_object_name = 'project_detail'
+    template = 'projects/project_detail.html'
+    context_object_name = 'project'
 
 
 class DeleteProjectView(LoginRequiredMixin, DeleteView):
@@ -99,52 +97,8 @@ class DeleteProjectView(LoginRequiredMixin, DeleteView):
 
 
 class EditProjectView(LoginRequiredMixin, UpdateView):
-    '''
-     Allow editing of the current project
-    '''
-    model = models.Project
-    template_name = 'projects/edit_project.html'
-    form_class = forms.ProjectForm
+    pass
 
-    def get_context_data(self, **kwargs):
-        context = super(EditProjectView, self).get_context_data(**kwargs)
-        if self.request.POST:
-            context['position_form'] = forms.PositionFormSet(
-                                                        data=self.request.POST)
-        else:
-            queryset = self.object.position_set.all()
-            context['position_form'] = forms.PositionFormSet(queryset=queryset)
-        return context
-
-    # def form_valid(self, form):
-    #     '''
-    #     check the forms are valid
-    #     for the skills, check if the skill already exists, if then add it as
-    #     as well as to the user skill set
-    #     '''
-    #     context = self.get_context_data()
-    #     skill_forms = context['skill_form']
-    #     if form.is_valid():
-    #         form = form.save(commit=False)
-    #         form.avatar = self.request.FILES
-    #         form.save()
-    #     if skill_forms.is_valid():
-    #         for skill_form in skill_forms:
-    #             skill_form.save()
-    #         # And notify our users that it worked
-    #         messages.success(
-    #                     self.request,
-    #                     '{}, your profile was successfully updated'.format(
-    #                      self.request.user.display_name
-    #                     ))
-    #     else:
-    #         # add in a more robust set of fail conditions
-    #         print(skill_forms.errors)
-    #     return super(EditProfileView, self).form_valid(form)
-
-    # def get_success_url(self):
-    #     return reverse('accounts:profile',
-    #                    kwargs={'pk': self.request.user.id})
 
 class SearchProjectView(LoginRequiredMixin, ListView):
     template_name = 'projects/all_projects.html'

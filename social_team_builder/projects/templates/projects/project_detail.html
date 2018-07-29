@@ -9,7 +9,7 @@
   <div class="circle--actions--bar">
     <div class="bounds">
       <div class="grid-100">
-        <a class="button" href="project_edit.html">Edit Project</a>
+        <a class="button" href="{% url 'projects:edit' pk=project_detail.id %}">Edit Project</a>
         <a class="button button-text" href="index.html">Delete Project</a>
       </div>
     </div>
@@ -19,32 +19,35 @@
     <div class="grid-70">
       <div class="circle--article--header">
         <h4 class="circle--article--section">Project</h4>
-        <h1 class="circle--article--title">{{ project.name }}</h1>
-        <p class="circle--article--byline">Project Owner: <a href="{% url 'accounts:profile' pk=user.id %}">{{ project.owner }}</a></p>
+        <h1 class="circle--article--title">{{ project_detail.name }}</h1>
+        <p class="circle--article--byline">Project Owner: <a href="{% url 'accounts:profile' pk=user.id %}">{{ project_detail.owner }}</a></p>
       </div>
 
       <div class="circle--article--body">
-          <p>{{ project.description }}</p>
+          <p>{{ project_detail.description }}</p>
       </div>
 
       <div class="circle--project--positions">
         <h2>Positions</h2>
-        {% for position in project.position_set.all %}
-        <ul class="circle--group--list">
-          <li>
-            <h3>{{ position.skill }}</h3>
-            <p>{{ position.description }}</p>
-            {% if position.is_filled %}
-              <a class="button button-primary button-inactive">Position Filled</a>
-            {% else %}
-              <h3>Current applicants</h3>
-              {% for app in position.applications_set.all %}
-                <h3><a href="{% url 'projects:accept' pk=app.position.pk %}">{{ app.applicant }}</a></h3>
-              {% empty %}
-                <p> No one has applied for this role </p>   
-              {% endfor %}
+        {% for position in project_detail.position_set.all %}
+          <ul class="circle--group--list">
+            <li>
+              <h3>{{ position.skill }}</h3>
+              <p>{{ position.description }}</p>
+            </li>
+              {% if position.is_filled %}
+                <a class="button button-primary button-inactive">Position Filled</a>
+              {% else %}
+                <h3>Current applicants</h3>
+                {% for app in position.applications_set.all %}
+                  <a href="{% url 'accounts:profile' pk=app.applicant.id %}">{{ app.applicant }}</a>
+                  <a href="{% url 'projects:accept' decision=1 id=app.applicant.id pk=app.position.pk %}" class="badge badge-pill badge-success">Accept</a>
+                  <a href="{% url 'projects:accept' decision=0 id=app.applicant.id pk=app.position.pk %}" class="badge badge-pill badge-danger">Reject</a>
+                {% empty %}
+                  <p> No one has applied for this role </p>   
+                {% endfor %}
             {% endif %} 
-          </li>
+          </ul>  
         {% endfor %}
       </div>
    </div>
@@ -53,7 +56,7 @@
         <div class="circle--secondary--module">
           <h3>Project Needs</h3>
           <ul class="circle--link--list">
-            {% for position in project.position_set.all %}
+            {% for position in project_detail.position_set.all %}
               <li><a>{{ position.skill }}</a></li>
             {% endfor %}
           </ul>
@@ -61,12 +64,12 @@
 
         <div class="circle--secondary--module">
           <h3>Project Timeline</h3>
-          <p>{{ project.timeline }}</p>
+          <p>{{ project_detail.timeline }}</p>
         </div>
 
         <div class="circle--secondary--module">
           <h3>Applicant Requirements</h3>
-          <p>{{ project.requirements }}</p>
+          <p>{{ project_detail.requirements }}</p>
         </div>
       </div>
     </div>
