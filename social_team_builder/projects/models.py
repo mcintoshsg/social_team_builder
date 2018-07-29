@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 
 
 class Skill(models.Model):
@@ -40,6 +41,9 @@ class Project(models.Model):
             self.owner.display_name
         )
 
+    def get_absolute_url(self):
+        return reverse('projects:detail', kwargs={'pk': self.id})
+
     class Meta:
         ordering = ['id']
 
@@ -65,7 +69,7 @@ class Position(models.Model):
                 self.project.name,
                 self.skill
             )
-   
+
 
 class Applications(models.Model):
     position = models.ForeignKey(Position)

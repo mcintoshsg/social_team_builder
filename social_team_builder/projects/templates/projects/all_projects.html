@@ -14,9 +14,8 @@
     </div>
   </div>
  <div> 
-
   {% for project in open_projects %}
-    <div class="bounds circle--page circle--article">
+   <div class="bounds circle--page circle--article">
       <div class="grid-70">
         <div class="circle--article--header">
             <h4 class="circle--article--section">Project</h4>
@@ -39,16 +38,15 @@
                     {% else %}
                       {% if user.username == project.owner.username %}
                         <a class="button button-primary button-inactive">Apply</a>
-                        </li>
-                            <a class="button button-text" href="{% url 'projects:edit' pk=project.pk %}">Edit Project</a>
-                            <a class="button button-text" href="{% url 'projects:delete' pk=project.pk %}">Delete Project</a>
-                      {% else %}  
+                       {% else %}  
                         <a class="button button-primary" href="{% url 'projects:apply' pk=position.pk %}">Apply</a>
                         </li>
                       {% endif %}
                    {% endif %}
                 {% endfor %}  
               </ul>
+              <a class="button button-text" href="{% url 'projects:edit' pk=project.pk %}">Edit Project</a>
+              <a class="button button-text" href="{% url 'projects:delete' pk=project.pk %}">Delete Project</a>
             </div>
           </div>
 

@@ -10,10 +10,10 @@ urlpatterns = [
         name='delete'),
     url(r'edit/(?P<pk>\d+)$', views.EditProjectView.as_view(), name='edit'),
     url(r'apply/(?P<pk>\d+)$', views.ApplyView.as_view(), name='apply'),
-    url(r"applications/", views.ApplicationsView.as_view(),
+    url(r'applications/', views.ApplicationsView.as_view(),
         name='applications'),
-    url(r"accept/(?P<decision>\d+)/(?P<id>\d+)/(?P<pk>\d+)/$",
+    url(r'accept/(?P<decision>\d+)/(?P<id>\d+)/(?P<pk>\d+)/$',
         views.ApplicationAcceptView.as_view(),
         name='accept'),
+    url(r'search/$', views.SearchProjectView.as_view(), name='search'),    
 ]
-#  r"by/(?P<username>[-\w]+)/(?P<pk>\d+)/$",

@@ -18,7 +18,7 @@ You're going to build a site where people can sign up to find projects that need
 [X] **As a user of the site, I should be able to log into my account.**
 ***
 
-[X] **As a user of the site, I should be able to edit my profile.**
+[] **As a user of the site, I should be able to edit my profile.**
 ***
 
 [X] **As a user of the site, I should be able to upload an avatar image for my profile.**
@@ -34,16 +34,16 @@ You're going to build a site where people can sign up to find projects that need
 [X] **As a user of the site, I should be able to see all of the applicants for my project's positions.**
 ***
 
-[ ] **As a user of the site, I should be able to approve an applicant for a position in my project.**
+[X] **As a user of the site, I should be able to approve an applicant for a position in my project.**
 ***
 
-[ ] **As a user of the site, I should be able to reject an applicant for a position in my project.**
+[X] **As a user of the site, I should be able to reject an applicant for a position in my project.**
 ***
 
-[ ] **As a user of the site, I should get a notification if I've been rejected or approved for a position.**
+[X] **As a user of the site, I should get a notification if I've been rejected or approved for a position.**
 ***
 
-[ ] **As a user of the site, I should be able to search for projects based on words in their titles or descriptions.**
+[X] **As a user of the site, I should be able to search for projects based on words in their titles or descriptions.**
 ***
 [ ] **As a user of the site, I should be able to filter projects by the positions they need filled.**
 ***
@@ -51,6 +51,7 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [X] **As a user of the site, I should be able to log out.**
 ***
+[] **Add in error pages - 404 etc**
 
 ## Project Structure
 ***
@@ -112,3 +113,21 @@ You're going to build a site where people can sign up to find projects that need
     - should be able to handle code snippets
     - gets responses to updates
 
+*** Fixes
+***
+[] **Fix all_ projects pagination**
+***
+[] **Fix delete project modal**
+***
+[] **Fix save empty image**
+***
+[] **Fix load image button**
+***
+[] **Fix add / remove skills**
+***
+[] **Fix DRY - add a mixin for context_data**
+***
+[] **Fix all_ projects pagination.**
+***
+[] **Use get_absolute_url**
+***

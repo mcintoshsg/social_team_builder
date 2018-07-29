@@ -2,11 +2,12 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse_lazy
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import (ListView, CreateView, DeleteView,
                                   UpdateView, DetailView, RedirectView)  
-
 from django.urls import reverse
+
 from accounts.models import User
 from . import forms
 from . import models
@@ -20,7 +21,7 @@ class AllProjectsView(LoginRequiredMixin, ListView):
     '''
     template_name = 'projects/all_projects.html'
     model = models.Project
-    paginate_by = 1
+    # paginate_by = 1
     context_object_name = 'open_projects'
 
     def get_queryset(self):
@@ -83,7 +84,7 @@ class NewProjectView(LoginRequiredMixin, CreateView):
 class ProjectDetailView(LoginRequiredMixin, DetailView):
     model = models.Project
     template = 'projects/project_detail.html'
-    context_object_name = 'project'
+    context_object_name = 'open_projects'
 
 
 class DeleteProjectView(LoginRequiredMixin, DeleteView):
@@ -100,10 +101,37 @@ class EditProjectView(LoginRequiredMixin, UpdateView):
 
 
 class SearchProjectView(LoginRequiredMixin, ListView):
-    pass
+    template_name = 'projects/all_projects.html'
+    model = models.Project
+    # paginate_by = 1
+    # may need to rethink this to get projects that are also completed
+    # change the tempate context_object_name in the template
+    context_object_name = 'open_projects'
+
+    def get_queryset(self):
+        '''
+        search the projects models, name and description fields for a 
+        query string sent in by the user. the reqults will only contain
+        projects that a current
+        '''
+        search_criteria = self.request.GET.get('search_projects')
+        results = models.Project.objects.filter(
+            Q(name__icontains=search_criteria) |
+            Q(description__icontains=search_criteria),
+            completed=False,
+            ).prefetch_related(
+                            'position_set'
+                            ).order_by('id')
+        if results:
+            return results
+        return messages.success(self.request,
+                                'No projects matched your search!')
 
 
-class FilterPorjectView(LoginRequiredMixin, ListView):
+class FilterProjectView(LoginRequiredMixin, ListView):
+    '''
+    Holding off implementin this view as I am unsure its erquired
+    '''
     pass
 
 
