@@ -28,6 +28,9 @@
             {{ position_form.management_form }}
             {{ position_form.form.errors}}
             {% for form in position_form %}
+              {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
             <ul id='positions' class="circle--group--list circle--clone--list">
                 <li>
                   {{ form.skill}}

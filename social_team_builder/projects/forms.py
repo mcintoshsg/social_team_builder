@@ -1,8 +1,9 @@
 from django import forms
+from django.shortcuts import get_object_or_404
 
 from . import models
 
-
+import pdb 
 class ProjectForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(
                     attrs={'class': 'circle--input--h1',
@@ -43,19 +44,18 @@ class PositionForm(forms.ModelForm):
                 'description',
             )
 
-    # def clean_skill(self):
+    # def save(self):
+    #     '''[summary]
     #     '''
-    #         before we validate the skill we nee to check if a new skill
-    #         type has been added and create a new record
-    #     '''
-    #     data = self.cleaned_data['skill']
-    #     if not models.Skill.objects.filter(skill_type=data):
-    #                 skill = models.Skill.objects.create(
-    #                                             skill_type=data
-    #                                                  )
-    #     else:
-    #         skill = models.Skill.objects.get(skill_type=data)
-    #     return skill
+    #     pdb.set_trace()
+    #     if self.changed_data:
+    #         if self.cleaned_data['skill'] != '':
+    #             # position = get_object_or_404(models.Position,
+    #             #                              id=self.cleaned_data['id'].id)
+    #             # position.skill = self.cleaned_data['skill']
+    #             # position.save() 
+    #             self.save()
+    #         return
 
 
 class BasePositionFormSet(forms.BaseModelFormSet):
@@ -67,7 +67,7 @@ class BasePositionFormSet(forms.BaseModelFormSet):
     '''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.queryset is None:  # this is ood !!!
+        if self.queryset is None:  # this is odd !!!
             self.queryset = models.Position.objects.none()
 
 

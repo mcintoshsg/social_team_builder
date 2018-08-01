@@ -12,6 +12,8 @@ class UserCreateForm(UserCreationForm):
         fields = ('display_name', 'email', 'password1', 'password2')
         model = get_user_model()
 
+        ordering = ['display_name']
+
 
 class EditProfileForm(forms.ModelForm):
     ''' form to allow changes to the User Profile '''
@@ -47,7 +49,7 @@ class SkillForm(forms.ModelForm):
         if self.changed_data:
             super(SkillForm, self).save(self)
             try:
-                # retrieve the newly created or changed ob
+                # retrieve the newly created or changed obj
                 skill = Skill.objects.get(
                     skill_type=self.cleaned_data['skill_type'])
             except Skill.DoesNotExist:

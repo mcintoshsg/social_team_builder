@@ -18,7 +18,7 @@ You're going to build a site where people can sign up to find projects that need
 [X] **As a user of the site, I should be able to log into my account.**
 ***
 
-[] **As a user of the site, I should be able to edit my profile.**
+[X] **As a user of the site, I should be able to edit my profile.**
 ***
 
 [X] **As a user of the site, I should be able to upload an avatar image for my profile.**
@@ -45,7 +45,7 @@ You're going to build a site where people can sign up to find projects that need
 
 [X] **As a user of the site, I should be able to search for projects based on words in their titles or descriptions.**
 ***
-[ ] **As a user of the site, I should be able to filter projects by the positions they need filled.**
+[X] **As a user of the site, I should be able to filter projects by the positions they need filled.**
 ***
 [X] **As a user of the site, I should be able to apply for a position in a project.**
 ***
@@ -130,4 +130,24 @@ You're going to build a site where people can sign up to find projects that need
 [] **Fix all_ projects pagination.**
 ***
 [] **Use get_absolute_url**
+***
+[] **Fix what actions an non-logged in user can do**
+***
+[] **Remove delete and edit buttons if projects owner is not logged in user**
+***
+[] **Fix search with no input**
+***
+[] **De-duplicate Project Needs on applicactions page**
+***
+[] **Fix accept / reject on project detail page**
+***
+[] **Fix project needs | issue on index page**
+***
+[] **Fix showing completed projects on all project view**
+***
+[] **Implement logging for serious errors**
+***
+[] **Implement differentiated settings.py**
+***
+[] **Remove the ability to add the same position**
 ***

@@ -16,4 +16,6 @@ urlpatterns = [
         views.ApplicationAcceptView.as_view(),
         name='accept'),
     url(r'search/$', views.SearchProjectView.as_view(), name='search'),    
+    url(r'filter/(?P<pk>\d+)$', views.FilterProjectView.as_view(),
+        name='filter'),
 ]

@@ -22,7 +22,7 @@
         <ul class="circle--filter--list">
           <li><a class="selected">All Needs</a></li>
           {% for skill in skill_set  %}
-              <li><a>{{ skill }}</a></li>
+              <li><a href="{% url 'projects:filter' pk=skill.id %}">{{ skill }}</a></li>
             {% endfor %}  
         </ul>
       </div>

@@ -12,7 +12,6 @@ from accounts.models import User
 from . import forms
 from . import models
 
-import pdb
 
 class AllProjectsView(LoginRequiredMixin, ListView):
     '''
@@ -63,8 +62,6 @@ class NewProjectView(LoginRequiredMixin, CreateView):
             form.save()
         if positions.is_valid():
             project = models.Project.objects.last()
-            # iterate through all the newly created positions and add
-            # the associated project
             for position in positions:
                 position = position.save(commit=False)
                 position.project = project
@@ -107,46 +104,55 @@ class EditProjectView(LoginRequiredMixin, UpdateView):
     form_class = forms.ProjectForm
 
     def get_context_data(self, **kwargs):
-        context = super(EditProjectView, self).get_context_data(**kwargs)
+        context = super(EditProjectView, self).get_context_data(**kwargs)  
         if self.request.POST:
             context['position_form'] = forms.PositionFormSet(
-                                                        data=self.request.POST)
+                                                    data=self.request.POST)
         else:
             queryset = self.object.position_set.all()
             context['position_form'] = forms.PositionFormSet(queryset=queryset)
         return context
 
-    # def form_valid(self, form):
-    #     '''
-    #     check the forms are valid
-    #     for the skills, check if the skill already exists, if then add it as
-    #     as well as to the user skill set
-    #     '''
-    #     context = self.get_context_data()
-    #     skill_forms = context['skill_form']
-    #     if form.is_valid():
-    #         form = form.save(commit=False)
-    #         form.avatar = self.request.FILES
-    #         form.save()
-    #     if skill_forms.is_valid():
-    #         for skill_form in skill_forms:
-    #             skill_form.save()
-    #         # And notify our users that it worked
-    #         messages.success(
-    #                     self.request,
-    #                     '{}, your profile was successfully updated'.format(
-    #                      self.request.user.display_name
-    #                     ))
-    #     else:
-    #         # add in a more robust set of fail conditions
-    #         print(skill_forms.errors)
-    #     return super(EditProfileView, self).form_valid(form)
+    def form_valid(self, form):
+        context = self.get_context_data()
+        positions = context['position_form']
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.owner = self.request.user
+            form.save()
+        if positions.is_valid():
+            for position in positions:
+                # if this is a change in on a current position - update
+                # else the position is new so we need to create
+                if position.cleaned_data:
+                    skill = position.cleaned_data['skill']
+                    description = position.cleaned_data['description']
+                    if position.cleaned_data['id']is not None:
+                        pos = models.Position.objects.get(
+                                            id=position.cleaned_data['id'].id)
+                        pos.skill = skill
+                        pos.description = description
+                        pos.save()
+                    else:
+                        models.Position.objects.create(
+                                                    skill=skill,
+                                                    description=description,
+                                                    project=self.object)                         
+        else:
+            # add in a more robust set of fail conditions
+            print(positions.errors)
 
-    # def get_success_url(self):
-    #     return reverse('accounts:profile',
-    #                    kwargs={'pk': self.request.user.id})
+        messages.success(self.request,
+                         '{} project updated successfully'.format(
+                          self.object
+                           ))
+        return super(EditProjectView, self).form_valid(form)
 
-class SearchProjectView(LoginRequiredMixin, ListView):
+    def get_success_url(self):
+        return reverse('projects:all')
+
+
+class SearchProjectView(ListView):
     template_name = 'projects/all_projects.html'
     model = models.Project
     # paginate_by = 1
@@ -174,11 +180,33 @@ class SearchProjectView(LoginRequiredMixin, ListView):
                                 'No projects matched your search!')
 
 
-class FilterProjectView(LoginRequiredMixin, ListView):
+class FilterProjectView(ListView):
     '''
     Holding off implementin this view as I am unsure its erquired
     '''
-    pass
+    template_name = 'projects/all_projects.html'
+    model = models.Project
+    # paginate_by = 1
+    # may need to rethink this to get projects that are also completed
+    # change the tempate context_object_name in the template
+    context_object_name = 'open_projects'
+
+    def get_queryset(self):
+        '''
+        search the projects models, for skills that match the id sent int
+        the reqults will only contain projects that a current
+        '''
+        print(self.request)
+        filter_id = self.kwargs['pk']
+        results = models.Project.objects.filter(
+            position__skill=filter_id,
+            completed=False
+            )
+
+        if results:
+            return results
+        return messages.success(self.request,
+                                'No projects matched your filter!')
 
 
 class ApplyView(AllProjectsView):
@@ -191,7 +219,6 @@ class ApplyView(AllProjectsView):
     def get(self, request, *args, **kwargs):
         ''' create the new application '''
         position = models.Position.objects.get(pk=self.kwargs['pk'])
-        # check if the user has already applied
         application, created = models.Applications.objects.get_or_create(
                                         position=position,
                                         applicant=self.request.user)
