@@ -9,7 +9,7 @@ from projects.models import UserSkill, Skill
 
 class UserCreateForm(UserCreationForm):
     class Meta:
-        fields = ('display_name', 'email', 'password1', 'password2')
+        fields = ('email', 'display_name', 'password1', 'password2')
         model = get_user_model()
 
         ordering = ['display_name']
@@ -65,5 +65,5 @@ class SkillForm(forms.ModelForm):
 SkillFormSet = forms.modelformset_factory(
     Skill,
     form=SkillForm,
-    extra=0,
+    extra=1,
 )

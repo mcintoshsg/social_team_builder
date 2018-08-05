@@ -12,6 +12,7 @@ from accounts.models import User
 from . import forms
 from . import models
 
+import pdb
 
 class AllProjectsView(LoginRequiredMixin, ListView):
     '''
@@ -80,7 +81,6 @@ class NewProjectView(LoginRequiredMixin, CreateView):
 
 
 class ProjectDetailView(LoginRequiredMixin, DetailView):
-    print('here')
     model = models.Project
     template_name = 'projects/project_detail.html'
     context_object_name = 'project_detail'
@@ -152,6 +152,52 @@ class EditProjectView(LoginRequiredMixin, UpdateView):
         return reverse('projects:all')
 
 
+class CompletedProjectView(LoginRequiredMixin, RedirectView):
+    ''' set the project to completed '''
+
+    def get(self, request, *args, **kwargs):
+        ''' update the project with completed and send an email to all
+            people working on the project
+        '''
+        __sent_applicant = None
+        # pdb.set_trace()
+        project = get_object_or_404(models.Project, id=self.kwargs['pk'])
+        project.completed = True
+        project.save()
+        # get all the positions and applicants of those positions
+        positions = project.position_set.all()
+        for position in positions:
+            for applicant in position.applications_set.all():
+                if applicant and applicant.applicant.email != __sent_applicant:
+                    self.send_notification(project, applicant)
+                    __sent_applicant = applicant.applicant.email
+        messages.success(self.request,
+                         "Notifications have been sent successfully")
+        return super(CompletedProjectView, self).get(request, *args, **kwargs)
+
+    @staticmethod
+    def send_notification(project, applicant):
+        # get the email ready
+        subject = '{}'.format(project.name)
+        message = ''' Dear {}\n
+                      The project {} has been successfully completed
+                      thanks for all your hard work
+                      \n\nRegards,
+                      {}'''.format(applicant.applicant.display_name,
+                                   project.name,  
+                                   project.owner)
+        from_email = '{}'.format(project.owner)
+        to_email = applicant.applicant.email
+        if subject and message and from_email:
+            send_mail(subject, message, from_email, [to_email])
+        else:
+            print('error with email')
+        return
+
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('projects:all')
+
+
 class SearchProjectView(ListView):
     template_name = 'projects/all_projects.html'
     model = models.Project
@@ -167,17 +213,21 @@ class SearchProjectView(ListView):
         projects that a current
         '''
         search_criteria = self.request.GET.get('search_projects')
-        results = models.Project.objects.filter(
-            Q(name__icontains=search_criteria) |
-            Q(description__icontains=search_criteria),
-            completed=False,
-            ).prefetch_related(
-                            'position_set'
-                            ).order_by('id')
-        if results:
-            return results
-        return messages.success(self.request,
-                                'No projects matched your search!')
+        if search_criteria != '':
+            results = models.Project.objects.filter(
+                Q(name__icontains=search_criteria) |
+                Q(description__icontains=search_criteria),
+                completed=False,
+                ).prefetch_related(
+                                'position_set'
+                                ).order_by('id')
+            if results:
+                return results
+            return messages.info(self.request,
+                                 'No projects matched your search!')
+        messages.warning(self.request,
+                         'Please enter search criteria!')
+        return models.Project.objects.all()
 
 
 class FilterProjectView(ListView):
@@ -196,7 +246,6 @@ class FilterProjectView(ListView):
         search the projects models, for skills that match the id sent int
         the reqults will only contain projects that a current
         '''
-        print(self.request)
         filter_id = self.kwargs['pk']
         results = models.Project.objects.filter(
             position__skill=filter_id,
@@ -255,12 +304,18 @@ class ApplicationsView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ApplicationsView, self).get_context_data(**kwargs)
+        all_skills = []
         owned_projects = models.Project.objects.filter(
                                                 owner=self.request.user
                                                 ).prefetch_related(
                                                     'position_set'
                                                 )
+        for project in owned_projects:
+            for position in project.position_set.all():
+                all_skills.append(position.skill)
+
         context['user'] = self.request.user
+        context['skill_set'] = set(all_skills)
         context['owned_projects'] = owned_projects
         return context
 

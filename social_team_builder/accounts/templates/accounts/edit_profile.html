@@ -39,13 +39,11 @@
         <h2>Profile</h2>
       </div>
       <div class="circle--fluid--cell circle--fluid--secondary">
-        <!-- <a class="button button-primary icon-on-left" href="profile.html">Save Changes</a> -->
         <input type='submit' class='button button-primary icon-on-left' value='Save Profile'>
       </div>
     </div>
 
     <div class="grid-70">
-      <!-- <input type="text" value="Wendy McElroy" placeholder="Full Name" class="circle--input--h1"> -->
       {{ form.display_name }}
       <div class="circle--article--body">
         {{ form.bio }}  
@@ -86,8 +84,8 @@
       <div class="circle--secondary--module">
         <div>
             <img src="{% static '/media/' %}{{ user.avatar }}" alt="My image"/>
+            <br>
             <input class="button" type="file"  name="image" id="id_image">
-          
         </div>
       </div>
 

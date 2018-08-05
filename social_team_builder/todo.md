@@ -119,7 +119,7 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [] **Fix delete project modal**
 ***
-[] **Fix save empty image**
+[X] **Fix save empty image**
 ***
 [] **Fix load image button**
 ***
@@ -127,21 +127,19 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [] **Fix DRY - add a mixin for context_data**
 ***
-[] **Fix all_ projects pagination.**
-***
 [] **Use get_absolute_url**
 ***
-[] **Fix what actions an non-logged in user can do**
+[X] **Fix what actions an non-logged in user can do**
 ***
-[] **Remove delete and edit buttons if projects owner is not logged in user**
+[X] **Remove delete and edit buttons if projects owner is not logged in user**
 ***
-[] **Fix search with no input**
+[X] **Fix search with no input**
 ***
-[] **De-duplicate Project Needs on applicactions page**
+[X] **De-duplicate Project Needs on applicactions page**
 ***
-[] **Fix accept / reject on project detail page**
+[X] **Fix accept / reject on project detail page**
 ***
-[] **Fix project needs | issue on index page**
+[X] **Fix project needs | issue on index page**
 ***
 [] **Fix showing completed projects on all project view**
 ***
@@ -150,4 +148,12 @@ You're going to build a site where people can sign up to find projects that need
 [] **Implement differentiated settings.py**
 ***
 [] **Remove the ability to add the same position**
+***
+[] **Fix messages placement**
+***
+[X] **Add in project completed Project**
+***
+[] **Change worked_on_projects to completed_projects**
+***
+[] **Speed up project**
 ***

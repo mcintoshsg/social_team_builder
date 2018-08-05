@@ -45,8 +45,11 @@
                    {% endif %}
                 {% endfor %}  
               </ul>
-              <a class="button button-text" href="{% url 'projects:edit' pk=project.pk %}">Edit Project</a>
-              <a class="button button-text" href="{% url 'projects:delete' pk=project.pk %}">Delete Project</a>
+                {% if user.username == project.owner.username %}
+                  <a class="button button-text" href="{% url 'projects:edit' pk=project.pk %}">Edit Project</a>
+                  <a class="button button-text" href="{% url 'projects:delete' pk=project.pk %}">Delete Project</a>
+                   <!-- <a  class="button button-text" data-toggle="modal" data-target="#deleteModal">Delete Project</a> -->
+                {% endif %}           
             </div>
           </div>
 

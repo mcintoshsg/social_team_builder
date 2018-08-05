@@ -72,9 +72,12 @@
         </div>
       </div>
     </div>
-
   </header>
-  {% if messages %}
+
+
+<div class="wrapper {% block wrapper_class %}{% endblock %}">
+
+{% if messages %}
   <div class="messages">
     {% for message in messages %}
     <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
@@ -84,10 +87,7 @@
   </div>
 {% endif %}
 
-  <div class="wrapper {% block wrapper_class %}{% endblock %}">
-
-   
-    {% block body_content %}{% endblock %}
+{% block body_content %}{% endblock %}
 </div>
 </body>
 </html>

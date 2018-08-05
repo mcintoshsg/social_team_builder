@@ -18,9 +18,9 @@ class Home(TemplateView):
         1. List out all projects and skills irrespective of owner
         2. List out all project needs
         '''
-        all_skills = []
-
         context = super().get_context_data(**kwargs)
+
+        all_skills = []
 
         open_projects = models.Project.objects.filter(
                             completed=False
