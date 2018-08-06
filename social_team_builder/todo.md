@@ -50,8 +50,7 @@ You're going to build a site where people can sign up to find projects that need
 [X] **As a user of the site, I should be able to apply for a position in a project.**
 ***
 [X] **As a user of the site, I should be able to log out.**
-***
-[] **Add in error pages - 404 etc**
+
 
 ## Project Structure
 ***
@@ -115,15 +114,15 @@ You're going to build a site where people can sign up to find projects that need
 
 *** Fixes
 ***
-[] **Fix all_ projects pagination**
+[X] **Fix all_ projects pagination**
 ***
 [] **Fix delete project modal**
 ***
 [X] **Fix save empty image**
 ***
-[] **Fix load image button**
+[X] **Fix load image button**
 ***
-[] **Fix add / remove skills**
+[X] **Fix add / remove skills**
 ***
 [] **Fix DRY - add a mixin for context_data**
 ***
@@ -141,7 +140,7 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [X] **Fix project needs | issue on index page**
 ***
-[] **Fix showing completed projects on all project view**
+[X] **Fix showing completed projects on all project view**
 ***
 [] **Implement logging for serious errors**
 ***
@@ -153,11 +152,15 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [X] **Add in project completed Project**
 ***
-[] **Change worked_on_projects to completed_projects**
+[X] **Change worked_on_projects to completed_projects**
 ***
 [] **Speed up project**
 ***
 [X] **Index page only show current (non-completed) projects**
 ***
 [X] **On index page click on project title**
+***
+[] **Add in form errors**
+***
+[] **Add in error pages - 404 etc**
 ***

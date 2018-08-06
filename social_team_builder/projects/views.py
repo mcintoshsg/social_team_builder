@@ -12,7 +12,6 @@ from accounts.models import User
 from . import forms
 from . import models
 
-import pdb
 
 class AllProjectsView(LoginRequiredMixin, ListView):
     '''
@@ -22,7 +21,7 @@ class AllProjectsView(LoginRequiredMixin, ListView):
     '''
     template_name = 'projects/all_projects.html'
     model = models.Project
-    # paginate_by = 1
+    paginate_by = 1
     context_object_name = 'open_projects'
 
     def get_queryset(self):
@@ -137,7 +136,7 @@ class EditProjectView(LoginRequiredMixin, UpdateView):
                         models.Position.objects.create(
                                                     skill=skill,
                                                     description=description,
-                                                    project=self.object)                         
+                                                    project=self.object)                   
         else:
             # add in a more robust set of fail conditions
             print(positions.errors)
@@ -160,7 +159,6 @@ class CompletedProjectView(LoginRequiredMixin, RedirectView):
             people working on the project
         '''
         __sent_applicant = None
-        # pdb.set_trace()
         project = get_object_or_404(models.Project, id=self.kwargs['pk'])
         project.completed = True
         project.save()
@@ -177,7 +175,6 @@ class CompletedProjectView(LoginRequiredMixin, RedirectView):
 
     @staticmethod
     def send_notification(project, applicant):
-        # get the email ready
         subject = '{}'.format(project.name)
         message = ''' Dear {}\n
                       The project {} has been successfully completed
@@ -201,9 +198,7 @@ class CompletedProjectView(LoginRequiredMixin, RedirectView):
 class SearchProjectView(ListView):
     template_name = 'projects/all_projects.html'
     model = models.Project
-    # paginate_by = 1
-    # may need to rethink this to get projects that are also completed
-    # change the tempate context_object_name in the template
+    paginate_by = 1
     context_object_name = 'open_projects'
 
     def get_queryset(self):
@@ -223,22 +218,22 @@ class SearchProjectView(ListView):
                                 ).order_by('id')
             if results:
                 return results
-            return messages.info(self.request,
-                                 'No projects matched your search!')
-        messages.warning(self.request,
-                         'Please enter search criteria!')
+            else:
+                messages.info(self.request,
+                              'No projects matched your search!')
+        else:
+            messages.warning(self.request,
+                             'Please enter search criteria!')
         return models.Project.objects.all()
 
 
 class FilterProjectView(ListView):
     '''
-    Holding off implementin this view as I am unsure its erquired
+    Filter projects based on skills required
     '''
     template_name = 'projects/all_projects.html'
     model = models.Project
-    # paginate_by = 1
-    # may need to rethink this to get projects that are also completed
-    # change the tempate context_object_name in the template
+    paginate_by = 1
     context_object_name = 'open_projects'
 
     def get_queryset(self):
@@ -254,8 +249,8 @@ class FilterProjectView(ListView):
 
         if results:
             return results
-        return messages.success(self.request,
-                                'No projects matched your filter!')
+        return messages.info(self.request,
+                             'No projects matched your filter!')
 
 
 class ApplyView(AllProjectsView):

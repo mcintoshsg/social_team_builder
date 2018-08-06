@@ -1,6 +1,5 @@
 from django.contrib.auth import logout
 from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (RedirectView, CreateView, UpdateView,
@@ -11,7 +10,6 @@ from . import forms
 from . models import User
 from projects import models
 
-import pdb
 
 class SignOutView(RedirectView):
     url = reverse_lazy("home")
@@ -42,31 +40,20 @@ class ProfileView(LoginRequiredMixin, DetailView):
         1. Who they are: display name, bio, avatar / photo  completed projects
         2. Skills:  What skills do they have
         3. Projects: What project they are owners of and what are the
-        projects they have  worked on i.e. completed.
+        projects they owned but are now complet
         '''
         context = super(ProfileView, self).get_context_data(**kwargs)
         # get the user attributes to pass into the context - display anme etc..
         # the user could be different the currently autenticated user
         profile_user = kwargs['object']
         owned_projects = models.Project.objects.filter(owner=profile_user)
-        worked_on_projects = models.Project.objects.filter(
-                                            completed=True,
-                                            position__filled_by=profile_user
-                                            )
-        try:
-            positions = worked_on_projects.get().position_set.filter(
-                                                filled_by=profile_user
-                                                )
-        except ObjectDoesNotExist:
-            context['positions'] = None
-        else:
-            context['positions'] = positions
-
+        past_projects = owned_projects.filter(completed=True)
         user_skills = models.UserSkill.objects.filter(user=profile_user)
+
         context['user'] = self.request.user
         context['profile_user'] = profile_user
         context['owned_projects'] = owned_projects
-        context['worked_on_projects'] = worked_on_projects
+        context['past_projects'] = past_projects
         context['user_skills'] = user_skills
         return context
 
@@ -85,7 +72,7 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         1. Who they are: display name, bio, avatar / photo  completed projects
         2. Skills:  What skills do they have
         3. Projects: What project they are owners of and what are the
-        projects they have  worked on i.e. completed.
+        projects they owned but are now complete
         '''
         context = super(EditProfileView, self).get_context_data(**kwargs)
         if self.request.POST:
@@ -99,28 +86,15 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
                                                     queryset=user_skills)
 
         # get the users projects to pass into the context - where they were
-        # the owner and where they have worked on a project that has completed
+        # the owner and where they have owned a project that is now completed
         owned_projects = models.Project.objects.filter(owner=self.request.user)
-        worked_on_projects = models.Project.objects.filter(
-                                        completed=True,
-                                        position__filled_by=self.request.user
-                                        )
-        # get all worked on projects(user has fileld a position),
-        # prefecth all the positions
-        try:
-            positions = worked_on_projects.get().position_set.filter(
-                                                filled_by=self.request.user
-                                                )
-        except ObjectDoesNotExist:
-            context['positions'] = None
-        else:
-            context['positions'] = positions
-
+        past_projects = owned_projects.filter(completed=True)
         # get the users skills
         user_skills = models.UserSkill.objects.filter(user=self.request.user)
+
         context['user'] = self.request.user
         context['owned_projects'] = owned_projects
-        context['worked_on_projects'] = worked_on_projects
+        context['past_projects'] = past_projects
         context['user_skills'] = user_skills
         return context
 

@@ -61,22 +61,22 @@
           </tr>
         </thead>
         <tbody>
-            {% for project in worked_on_projects %}
-            <tr class="clickable-row" data-href="project.html">
-              <td>
-                <h3>{{ project.name }}</h3>
-              </td>
+            {% for project in past_projects %}
+              <tr class="clickable-row" data-href="project.html">
+                <td>
+                  <h4><a href="{% url 'projects:detail' pk=project.pk %}">{{ project.name }}</a></h4>
+                </td>
+                <td class="circle--cell--right">
+                  {% for position in project.position_set.all %}
+                      <span class="secondary-label">{{ position.skill }} |  </span>
+                  {% endfor %} 
+                  </td>
             {% empty %}
               <td>
-                <h3>You have no past projects</h3>
-              </td>
-              {% for position in positions %}
-                <td class="circle--cell--right">
-                  <span class="secondary-label">{{ position.skill }}</span>
-                </td>
-              {% endfor %}  
-            </tr>
-            {% endfor %}
+                  <h3>You have no past projects</h3>
+              </td>      
+             </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
@@ -107,8 +107,6 @@
             <li>
               {{ form.id }} 
               {{ form.skill_type }}
-              <!-- <a class="circle--clone--add">Add Skill</a>
-              <a class="circle--clone--remove">Remove</a> -->
             </li>
           </ul>
         {% endfor %}
