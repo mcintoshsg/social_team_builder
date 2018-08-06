@@ -1,0 +1,12 @@
+<div class="grid-45 centered">
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissable alert-link">
+          <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&#215;</button>
+          <div class="container">{{ message|safe }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

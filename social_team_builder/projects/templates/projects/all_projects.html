@@ -14,13 +14,15 @@
     </div>
   </div>
  <div> 
+{% include "_messages.html" %} 
+ 
   {% for project in open_projects %}
    <div class="bounds circle--page circle--article">
       <div class="grid-70">
         <div class="circle--article--header">
             <h4 class="circle--article--section">Project</h4>
             <h1 class="circle--article--title">{{ project.name }}</h1>
-            <p class="circle--article--byline">Project Owner: <a>{{ project.owner }}</a></p>
+            <p class="circle--article--byline">Project Owner: <a href="{% url 'accounts:profile' pk=project.owner.pk %}">{{ project.owner }}</a></p>
         </div>
           <div class="circle--article--body">
             <p>{{ project.description }}</p>

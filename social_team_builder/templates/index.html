@@ -15,7 +15,7 @@
         </a>
       </div>
     </div>
-
+    {% include "_messages.html" %} 
     <div class="grid-25">
       <div class="circle--filter circle--secondary--module">
         <ul class="circle--filter--list">
@@ -39,7 +39,7 @@
           {% for project in open_projects %}
             <tr class="clickable-row" data-href="project.html">
               <td>
-                <h3>{{ project.name }}</h3>
+                <h3><a href="{% url 'projects:detail' pk=project.pk %}">{{ project.name }}</a></h3>
               </td>
               <td class="circle--cell--right">
                 {% for position in project.position_set.all %}

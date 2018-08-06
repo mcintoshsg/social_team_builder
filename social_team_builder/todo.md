@@ -149,11 +149,15 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [] **Remove the ability to add the same position**
 ***
-[] **Fix messages placement**
+[X] **Fix messages placement**
 ***
 [X] **Add in project completed Project**
 ***
 [] **Change worked_on_projects to completed_projects**
 ***
 [] **Speed up project**
+***
+[X] **Index page only show current (non-completed) projects**
+***
+[X] **On index page click on project title**
 ***
