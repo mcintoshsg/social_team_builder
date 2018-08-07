@@ -1,6 +1,14 @@
+from django.shortcuts import get_object_or_404
 from django import forms
 
 from . import models
+
+import pdb
+
+class SkillForm(forms.ModelForm):
+    skill = forms.CharField(widget=forms.TextInput(
+                    attrs={'class': 'circle--textarea--input',
+                           'placeholder': 'title'}))
 
 
 class ProjectForm(forms.ModelForm):
@@ -27,14 +35,9 @@ class ProjectForm(forms.ModelForm):
 
 
 class PositionForm(forms.ModelForm):
-    # skill = forms.CharField(widget=forms.TextInput(
-    #                 attrs={'class': 'circle--textarea--input',
-    #                        'placeholder': 'title'}))
-    skill = forms.ModelChoiceField(
-                            queryset=models.Skill.objects.all(),
-                            )
+    skill = forms.ModelChoiceField(queryset=models.Skill.objects.all())
     description = forms.CharField(widget=forms.Textarea(
-                        attrs={'placeholder': 'position description...'}))    
+                        attrs={'placeholder': 'position description...'}))
 
     class Meta:
         model = models.Position
@@ -42,20 +45,23 @@ class PositionForm(forms.ModelForm):
                 'skill',
                 'description',
             )
+  
 
     # def save(self):
-    #     '''[summary]
-    #     '''
+    #     position = super(PositionForm, self).save(commit=False)
     #     pdb.set_trace()
-    #     if self.changed_data:
-    #         if self.cleaned_data['skill'] != '':
-    #             # position = get_object_or_404(models.Position,
-    #             #                              id=self.cleaned_data['id'].id)
-    #             # position.skill = self.cleaned_data['skill']
-    #             # position.save() 
-    #             self.save()
-    #         return
-
+    #     project = models.Project.objects.last()
+    #     if self.cleaned_data['skill']:
+    #         obj = models.Position.objects.filter(
+    #                                         project=project,
+    #                                         skill=self.cleaned_data['skill']
+    #                                         )
+    #         if obj:
+    #             raise forms.ValidationError('wldkjwghdwh')
+    #         else:
+    #             position.project = project
+    #             super(PositionForm, self).save(self)
+    #     return
 
 class BasePositionFormSet(forms.BaseModelFormSet):
     '''
@@ -68,6 +74,18 @@ class BasePositionFormSet(forms.BaseModelFormSet):
         super().__init__(*args, **kwargs)
         if self.queryset is None:  # this is odd !!!
             self.queryset = models.Position.objects.none()
+
+    def clean(self):
+        if any(self.errors):
+            return
+        values = set()
+        for form in self.forms:
+            if form.cleaned_data:
+                value = form.cleaned_data['skill']
+                if value in values:
+                    raise forms.ValidationError(
+                            'Duplicate values for position are not allowed')
+                values.add(value)
 
 
 PositionFormSet = forms.modelformset_factory(

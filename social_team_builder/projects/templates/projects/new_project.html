@@ -35,11 +35,18 @@
             {% for form in position_form %}
             <ul id='positions' class="circle--group--list circle--clone--list">
                 <li>
-                  {{ form.skill}}
+                  <a class="button button-text" href="{% url 'home' %}">Add New Skill</a>
+                  {{ form.skill }}
                   {{ form.description }}
                 </li>
               </ul>
              {% endfor %} 
+             {% if position_form.non_form_errors %}
+              {% for error in position_form.non_form_errors %}
+                  "form errors worked" {{ position_form.non_form_errors }}
+                 {{ error|escape }}
+              {% endfor %}
+             {% endif %}
             <input type='submit' class='button button-primary' value='Save Project'>
         </div>
        </div> 

@@ -70,6 +70,9 @@ class Position(models.Model):
                 self.skill
             )
 
+    class Meta:
+        unique_together = (('project', 'skill'),)
+
 
 class Applications(models.Model):
     position = models.ForeignKey(Position)

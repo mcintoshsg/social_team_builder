@@ -2,7 +2,9 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse_lazy
+from django.db import IntegrityError
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import (ListView, CreateView, DeleteView,
                                   UpdateView, DetailView, RedirectView)  
@@ -12,6 +14,7 @@ from accounts.models import User
 from . import forms
 from . import models
 
+import pdb
 
 class AllProjectsView(LoginRequiredMixin, ListView):
     '''
@@ -53,7 +56,7 @@ class NewProjectView(LoginRequiredMixin, CreateView):
             context['position_form'] = forms.PositionFormSet()
         return context
 
-    def form_valid(self, form):
+    def form_valid(self, form, **kwargs):
         context = self.get_context_data()
         positions = context['position_form']
         if form.is_valid():
@@ -61,6 +64,7 @@ class NewProjectView(LoginRequiredMixin, CreateView):
             form.owner = self.request.user
             form.save()
         if positions.is_valid():
+            pdb.set_trace()
             project = models.Project.objects.last()
             for position in positions:
                 position = position.save(commit=False)
@@ -71,8 +75,10 @@ class NewProjectView(LoginRequiredMixin, CreateView):
                               project.name
                               ))
         else:
-            # add in a more robust set of fail conditions
-            print(positions.errors)                
+            messages.warning(self.request,
+                             'duplicate positions are not allowed')
+            # this does not work...                 
+            return self.render_to_response(self.get_context_data(**kwargs))
         return super(NewProjectView, self).form_valid(form)
 
     def get_success_url(self):
@@ -271,7 +277,7 @@ class ApplyView(AllProjectsView):
                              'Your application for {} was posted'.format
                              (position.skill))
         else:
-            messages.success(self.request,
+            messages.info(self.request,
                              'You have already applied for this position')
         self.object_list = self.get_queryset()
         context = self.get_context_data(object_list=self.object_list)

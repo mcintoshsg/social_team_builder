@@ -7,7 +7,6 @@ from django.utils import timezone
 
 from PIL import Image
 
-import pdb
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -18,8 +17,6 @@ class User(AbstractUser):
     date_joined = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-
-    __original_avatar = None
 
     def __init__(self, *args, **kwargs):
         ''' overide init to save a copy of the orginal avatar '''

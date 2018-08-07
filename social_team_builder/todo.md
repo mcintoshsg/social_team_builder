@@ -146,7 +146,7 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [] **Implement differentiated settings.py**
 ***
-[] **Remove the ability to add the same position**
+[] **Remove the ability to add the same position - custom clean on position field**
 ***
 [X] **Fix messages placement**
 ***
@@ -164,3 +164,5 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [] **Add in error pages - 404 etc**
 ***
+
+
