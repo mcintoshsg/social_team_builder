@@ -1,79 +1,84 @@
-{% extends "layout.html" %}
-{% load bootstrap4 %}
-
-{% load i18n %}
-
-{% block title_tag %}Project| {{ block.super }}{% endblock %}
-
+{% extends "layout.html" %} 
+{% load bootstrap4 %} 
+{% load i18n %} 
+{% block title_tag %}Project Details | {{ block.super }}{% endblock %}
 {% block body_content %}
-  <div class="circle--actions--bar">
-    <div class="bounds">
-      <div class="grid-100">
-        <a class="button" href="{% url 'projects:edit' pk=project_detail.id %}">Edit Project</a>
-        <a class="button button-text" href="{% url 'projects:delete' pk=project_detail.id %}">Delete Project</a>
-        <a class="button button-text" href="{% url 'projects:completed' pk=project_detail.id %}">Project Completed</a>
-      </div>
+
+<div class="circle--actions--bar">
+  <div class="bounds">
+    <div class="grid-100">
+      <a class="button" href="{% url 'projects:edit' pk=project_detail.id %}">Edit Project</a>
+      <a class="button button-text" href="{% url 'projects:delete' pk=project_detail.id %}">Delete Project</a>
+      <a class="button button-text" href="{% url 'projects:completed' pk=project_detail.id %}">Project Completed</a>
     </div>
   </div>
-  
-  {% include "_messages.html" %} 
+</div>
 
-  <div class="bounds circle--page circle--article">
-    <div class="grid-70">
-      <div class="circle--article--header">
-        <h4 class="circle--article--section">Project</h4>
-        <h1 class="circle--article--title">{{ project_detail.name }}</h1>
-        <p class="circle--article--byline">Project Owner: <a href="{% url 'accounts:profile' pk=user.id %}">{{ project_detail.owner }}</a></p>
-      </div>
+{% include "_messages.html" %}
 
-      <div class="circle--article--body">
-          <p>{{ project_detail.description }}</p>
-      </div>
-
-      <div class="circle--project--positions">
-        <h2>Positions</h2>
-        {% for position in project_detail.position_set.all %}
-          <ul class="circle--group--list">
-            <li>
-              <h3>{{ position.skill }}</h3>
-              <p>{{ position.description }}</p>
-            </li>
-              {% if position.is_filled %}
-                <a class="button button-primary button-inactive">Position Filled</a>
-              {% else %}
-                <h3>Current applicants</h3>
-                {% for app in position.applications_set.all %}
-                  <a href="{% url 'accounts:profile' pk=app.applicant.id %}">{{ app.applicant }}</a>
-                  <a href="{% url 'projects:accept' decision=1 id=app.applicant.id pk=app.position.pk %}" class="badge badge-pill badge-success">Accept</a>
-                  <a href="{% url 'projects:accept' decision=0 id=app.applicant.id pk=app.position.pk %}" class="badge badge-pill badge-danger">Reject</a>
-                {% empty %}
-                  <p> No one has applied for this role </p>   
-                {% endfor %}
-            {% endif %} 
-          </ul>  
-        {% endfor %}
-      </div>
-   </div>
-
-    <div class="grid-25 grid-push-5">
-        <div class="circle--secondary--module">
-          <h3>Project Needs</h3>
-          <ul class="circle--link--list">
-            {% for position in project_detail.position_set.all %}
-              <li><a>{{ position.skill }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <div class="circle--secondary--module">
-          <h3>Project Timeline</h3>
-          <p>{{ project_detail.timeline }}</p>
-        </div>
-
-        <div class="circle--secondary--module">
-          <h3>Applicant Requirements</h3>
-          <p>{{ project_detail.requirements }}</p>
-        </div>
-      </div>
+<div class="bounds circle--page circle--article">
+  <div class="grid-70">
+    <div class="circle--article--header">
+      <h4 class="circle--article--section">Project</h4>
+      <h1 class="circle--article--title">{{ project_detail.name }}</h1>
+      <p class="circle--article--byline">Project Owner:
+        <a href="{% url 'accounts:profile' pk=user.id %}">{{ project_detail.owner }}</a>
+      </p>
     </div>
+
+    <div class="circle--article--body">
+      <p>{{ project_detail.description }}</p>
+    </div>
+
+    <div class="circle--project--positions">
+      <h2>Positions</h2>
+      {% for position in project_detail.position_set.all %}
+      <ul class="circle--group--list">
+        <li>
+          <h3>{{ position.skill }}</h3>
+          <p>{{ position.description }}</p>
+        </li>
+        {% if position.is_filled %}
+        <a class="button button-primary button-inactive">Position Filled</a>
+        {% else %}
+        <h3>Current applicants</h3>
+        {% for app in position.applications_set.all %}
+        {% if user == project_detail.owner %}
+        <a href="{% url 'accounts:profile' pk=app.applicant.id %}">{{ app.applicant }}</a>
+        <a href="{% url 'projects:accept' decision=1 id=app.applicant.id pk=app.position.pk %}" class="badge badge-pill badge-success">Accept</a>
+        <a href="{% url 'projects:accept' decision=0 id=app.applicant.id pk=app.position.pk %}" class="badge badge-pill badge-danger">Reject</a>
+        {% else %}
+        <a href="{% url 'accounts:profile' pk=app.applicant.id %}">{{ app.applicant }}</a>
+        {% endif %}
+        {% empty %}
+        <p> No one has applied for this role </p>
+        {% endfor %} {% endif %}
+      </ul>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="grid-25 grid-push-5">
+    <div class="circle--secondary--module">
+      <h3>Project Needs</h3>
+      <ul class="circle--link--list">
+        {% for position in project_detail.position_set.all %}
+        <li>
+          <a>{{ position.skill }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="circle--secondary--module">
+      <h3>Project Timeline</h3>
+      <p>{{ project_detail.timeline }}</p>
+    </div>
+
+    <div class="circle--secondary--module">
+      <h3>Applicant Requirements</h3>
+      <p>{{ project_detail.requirements }}</p>
+    </div>
+  </div>
+</div>
 {% endblock %}

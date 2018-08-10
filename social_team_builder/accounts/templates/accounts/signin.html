@@ -1,15 +1,13 @@
 {% extends "layout.html" %}
 {% load bootstrap4 %}
-
 {% block title_tag %}Sign In | {{ block.super }}{% endblock %}
 
 {% block body_content %}
 <div class="bounds">
     <div class="grid-55 centered">
         <h2>Sign In</h2>
-            <form method="POST">
-                {% csrf_token %}
-                {% bootstrap_form form %}
+        <form method="POST">
+            {% csrf_token %} {% bootstrap_form form %}
             <input type="submit" value="Sign In" class="button-primary">
             <a class="button" href="{% url 'accounts:signup' %}">Sign Up</a>
             <a href="{% url 'password_reset' %}">Forgot Password?</a>

@@ -1,108 +1,111 @@
 {% extends "layout.html" %}
 {% load bootstrap4 %}
-
-{% load i18n %}
-
-{% block title_tag %}All Projects| {{ block.super }}{% endblock %}
+{% load i18n %} 
+{% block title_tag %}All Projects | {{ block.super }}{% endblock %}
 
 {% block body_content %}
-  <div class="circle--actions--bar">
-    <div class="bounds">
-      <div class="grid-100">
-        <a class="button" href="{% url 'projects:new' %}">Add Project</a>
+<div class="circle--actions--bar">
+  <div class="bounds">
+    <div class="grid-100">
+      <a class="button" href="{% url 'projects:new' %}">Add Project</a>
+    </div>
+  </div>
+</div>
+<div>
+  {% include "_messages.html" %} {% for project in open_projects %}
+  <div class="bounds circle--page circle--article">
+    <div class="grid-70">
+      <div class="circle--article--header">
+        <h4 class="circle--article--section">Project</h4>
+        <h1 class="circle--article--title">{{ project.name }}</h1>
+        <p class="circle--article--byline">Project Owner:
+          <a href="{% url 'accounts:profile' pk=project.owner.pk %}">{{ project.owner }}</a>
+        </p>
+      </div>
+      <div class="circle--article--body">
+        <p>{{ project.description }}</p>
+      </div>
+
+      <div class="circle--project--positions">
+        <h2>Positions</h2>
+        <ul class="circle--group--list">
+          {% for position in project.position_set.all %}
+          <li>
+            <h3>{{ position.skill }}</h3>
+            <p>{{ position.description }}</p>
+            {% if position.is_filled %}
+            <a class="button button-primary button-inactive">Position Filled</a>
+            {% else %} {% if user.username == project.owner.username %}
+            <a class="button button-primary button-inactive">Apply</a>
+            {% else %}
+            <a class="button button-primary" href="{% url 'projects:apply' pk=position.pk %}">Apply</a>
+          </li>
+          {% endif %} {% endif %} {% endfor %}
+        </ul>
+        {% if user.username == project.owner.username %}
+        <a class="button button-text" href="{% url 'projects:edit' pk=project.pk %}">Edit Project</a>
+        <a class="button button-text" href="{% url 'projects:delete' pk=project.pk %}">Delete Project</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="grid-25 grid-push-5">
+      <div class="circle--secondary--module">
+        <h3>Project Needs</h3>
+        <ul class="circle--link--list">
+          {% for position in project.position_set.all %}
+          <li>
+            <a>{{ position.skill }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="circle--secondary--module">
+        <h3>Project Timeline</h3>
+        <p>{{ project.timeline }}</p>
+      </div>
+
+      <div class="circle--secondary--module">
+        <h3>Applicant Requirements</h3>
+        <p>{{ project.requirements }}</p>
       </div>
     </div>
   </div>
- <div> 
-{% include "_messages.html" %} 
- 
-  {% for project in open_projects %}
-   <div class="bounds circle--page circle--article">
-      <div class="grid-70">
-        <div class="circle--article--header">
-            <h4 class="circle--article--section">Project</h4>
-            <h1 class="circle--article--title">{{ project.name }}</h1>
-            <p class="circle--article--byline">Project Owner: <a href="{% url 'accounts:profile' pk=project.owner.pk %}">{{ project.owner }}</a></p>
-        </div>
-          <div class="circle--article--body">
-            <p>{{ project.description }}</p>
-          </div>
-          
-          <div class="circle--project--positions">
-            <h2>Positions</h2>
-            <ul class="circle--group--list">
-                {% for position in project.position_set.all %}
-                  <li>
-                    <h3>{{ position.skill }}</h3>
-                    <p>{{ position.description }}</p>
-                    {% if position.is_filled %}
-                      <a class="button button-primary button-inactive">Position Filled</a>
-                    {% else %}
-                      {% if user.username == project.owner.username %}
-                        <a class="button button-primary button-inactive">Apply</a>
-                       {% else %}  
-                        <a class="button button-primary" href="{% url 'projects:apply' pk=position.pk %}">Apply</a>
-                        </li>
-                      {% endif %}
-                   {% endif %}
-                {% endfor %}  
-              </ul>
-                {% if user.username == project.owner.username %}
-                  <a class="button button-text" href="{% url 'projects:edit' pk=project.pk %}">Edit Project</a>
-                  <a class="button button-text" href="{% url 'projects:delete' pk=project.pk %}">Delete Project</a>
-                {% endif %}           
-            </div>
-          </div>
-
-      <div class="grid-25 grid-push-5">
-        <div class="circle--secondary--module">
-          <h3>Project Needs</h3>
-          <ul class="circle--link--list">
-            {% for position in project.position_set.all %}
-              <li><a>{{ position.skill }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <div class="circle--secondary--module">
-          <h3>Project Timeline</h3>
-          <p>{{ project.timeline }}</p>
-        </div>
-
-        <div class="circle--secondary--module">
-          <h3>Applicant Requirements</h3>
-          <p>{{ project.requirements }}</p>
-        </div>
-      </div>
-    </div>
-  {% endfor %}
-  
-
- 
-      {% if is_paginated %}
-      <div class="grid-60 centered">
-        <ul class="pagination pagination-lg justify-content-center">
-        {% if page_obj.has_previous %}
-        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
-        {% else %}
-        <li class="page-item disabled"><a class="page-link" href="#"><span>Previous</span></a></li>
-        {% endif %}
-        {% for i in paginator.page_range %}
-        {% if page_obj.number == i %}
-        <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
-        {% else %}
-        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-        {% endif %}
-        {% endfor %}
-        {% if page_obj.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
-        {% else %}
-        <li class="page-item disabled"><a class="page-link" href="#"><span>Next</span></a></li>
-        {% endif %}
-      </ul>
-    </div>
-    {% endif %}
-
-
-{% endblock %}
-
+  {% endfor %} {% if is_paginated %}
+  <div class="grid-60 centered">
+    <ul class="pagination pagination-lg justify-content-center">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#">
+          <span>Previous</span>
+        </a>
+      </li>
+      {% endif %} {% for i in paginator.page_range %} {% if page_obj.number == i %}
+      <li class="page-item active">
+        <a class="page-link" href="#">{{ i }}
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+      </li>
+      {% endif %} {% endfor %} {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#">
+          <span>Next</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+  {% endif %} {% endblock %}

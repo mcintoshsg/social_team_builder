@@ -1,70 +1,66 @@
-{% extends "layout.html" %}
-
-{% block title_tag %}Project| {{ block.super }}{% endblock %}  
-  
+{% extends "layout.html" %} 
+{% block title_tag %}Project| {{ block.super }}{% endblock %} 
 {% block body_content %}
 
 <form action="" method="post">
   {% csrf_token %}
-    
-    <div class="circle--actions--bar">
-      <div class="bounds">
-        <div class="grid-100">
-          <input type='submit' class='button button-primary' value='Save Project'>
-          <a class="button button-text" href="{% url 'home' %}">Discard</a>
-        </div>
+
+  <div class="circle--actions--bar">
+    <div class="bounds">
+      <div class="grid-100">
+        <input type='submit' class='button button-primary' value='Save Project'>
+        <a class="button button-text" href="{% url 'home' %}">Discard</a>
       </div>
     </div>
-    
-    {% include "_messages.html" %} 
+  </div>
 
-    <div class="bounds circle--page circle--article">
-      <div class="grid-70">
-        <div class="circle--article--body">
-          {{ form.name }}
-          {{ form.description }}
-        </div>
-        <fieldset>
+  {% include "_messages.html" %}
+
+  <div class="bounds circle--page circle--article">
+    <div class="grid-70">
+      <div class="circle--article--body">
+        {{ form.name }} {{ form.description }}
+      </div>
+      <fieldset>
         <div class="circle--project--positions">
           <h2>Positions</h2>
-            {{ position_form.management_form }}
-            {{ position_form.form.errors}}
-            {% for form in position_form %}
-              {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-              {% endfor %}
-            <ul id='positions' class="circle--group--list circle--clone--list">
-                <li>
-                  {{ form.skill}}
-                  {{ form.description }}
-                </li>
-              </ul>
-             {% endfor %} 
-            <input type='submit' class='button button-primary' value='Save Project'>
+          {{ position_form.management_form }} 
+          {{ position_form.non_form_errors }}
+          {% for form in position_form %} 
+          {% for hidden in form.hidden_fields %}
+           {{ hidden }} 
+          {% endfor %}
+          <ul id='positions' class="circle--group--list circle--clone--list">
+            <li>
+              {{ form.skill}} {{ form.description }}
+            </li>
+          </ul>
+          {% endfor %}
+          <input type='submit' class='button button-primary' value='Save Project'>
         </div>
-       </div> 
-      <div class="grid-25 grid-push-5">
-
-        <div class="circle--secondary--module">
-          <h3>Project Timeline</h3>
-            {{ form.timeline }}
-        </div>
-
-        <div class="circle--secondary--module">
-          <h3>Applicant Requirements</h3>
-          {{ form.requirements }}
-        </div>
-
-      </div>
     </div>
+    <div class="grid-25 grid-push-5">
+
+      <div class="circle--secondary--module">
+        <h3>Project Timeline</h3>
+        {{ form.timeline }}
+      </div>
+
+      <div class="circle--secondary--module">
+        <h3>Applicant Requirements</h3>
+        {{ form.requirements }}
+      </div>
+
+    </div>
+  </div>
 </form>
 
 <script>
   $('#positions li').formset({
-      addText: 'Add Position',
-      deleteText: 'Remove Position',
-      addCssClass: 'circle--clone--add',
-      deleteCssClass: 'circle--clone--remove'
+    addText: 'Add Position',
+    deleteText: 'Remove Position',
+    addCssClass: 'circle--clone--add',
+    deleteCssClass: 'circle--clone--remove'
   });
 </script>
 

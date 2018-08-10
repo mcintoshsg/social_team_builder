@@ -12,6 +12,8 @@ from projects import models
 
 
 class SignOutView(RedirectView):
+    # reverse_lazy needed as the URL config is no loaded typical
+    # in classbased views
     url = reverse_lazy("home")
 
     def get(self, request, *args, **kwargs):
@@ -43,8 +45,6 @@ class ProfileView(LoginRequiredMixin, DetailView):
         projects they owned but are now complet
         '''
         context = super(ProfileView, self).get_context_data(**kwargs)
-        # get the user attributes to pass into the context - display anme etc..
-        # the user could be different the currently autenticated user
         profile_user = kwargs['object']
         owned_projects = models.Project.objects.filter(owner=profile_user)
         past_projects = owned_projects.filter(completed=True)
@@ -77,19 +77,16 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         context = super(EditProfileView, self).get_context_data(**kwargs)
         if self.request.POST:
             context['skill_form'] = forms.SkillFormSet(
-                                self.request.POST,
-                                form_kwargs={'user': self.request.user})
+                self.request.POST,
+                form_kwargs={'user': self.request.user})
         else:
             user_skills = models.Skill.objects.filter(
-                                            skill__user=self.request.user)
+                skill__user=self.request.user)
             context['skill_form'] = forms.SkillFormSet(
-                                                    queryset=user_skills)
+                queryset=user_skills)
 
-        # get the users projects to pass into the context - where they were
-        # the owner and where they have owned a project that is now completed
         owned_projects = models.Project.objects.filter(owner=self.request.user)
         past_projects = owned_projects.filter(completed=True)
-        # get the users skills
         user_skills = models.UserSkill.objects.filter(user=self.request.user)
 
         context['user'] = self.request.user
@@ -105,23 +102,22 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         as well as to the user skill set
         '''
         context = self.get_context_data()
-        skill_forms = context['skill_form']
-        if form.is_valid():
+        skills = context['skill_form']
+        if form.is_valid() and skills.is_valid():
             form = form.save(commit=False)
             form.avatar = self.request.FILES
             form.save()
-        if skill_forms.is_valid():
-            for skill_form in skill_forms:
-                skill_form.save()
-            # And notify our users that it worked
+            for skill in skills:
+                skill.save()
             messages.success(
-                        self.request,
-                        '{}, your profile was successfully updated'.format(
-                         self.request.user.display_name
-                        ))
+                self.request,
+                '{}, your profile was successfully updated'.format(
+                    self.request.user.display_name
+                ))
         else:
-            # add in a more robust set of fail conditions
-            print(skill_forms.errors)
+            return self.render_to_response(
+                {'form': form,
+                 'skill_form': skills})
         return super(EditProfileView, self).form_valid(form)
 
     def get_success_url(self):

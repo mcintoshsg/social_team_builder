@@ -20,5 +20,6 @@ urlpatterns = [
         name='filter'),
     url(r'completed/(?P<pk>\d+)$', views.CompletedProjectView.as_view(),
         name='completed'),
-   
+    url(r'add_skill/$', views.AddSkillView.as_view(),
+        name='add_skill'),
 ]

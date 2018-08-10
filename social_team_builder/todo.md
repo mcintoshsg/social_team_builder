@@ -73,8 +73,6 @@ You're going to build a site where people can sign up to find projects that need
         - date_joined 
         - projects (user can work on many projects)
         - past projects 
-        - project ranking
-        - skillsets (user can have many skills)
         - is_active
         - is_admin (staff, runs site)
 
@@ -89,15 +87,9 @@ You're going to build a site where people can sign up to find projects that need
     - Project Model
         - project name
         - project description
-        - required skills - can be multiple
         - estimated duration
-        - project responsibilites per skillset?
-        - who is working on project - multiple 
-        approved users 
         - created_by (project owner)
-        - project positon
-        - project responsibilities
-
+       
     - Poistion Model
 
     - Application Model
@@ -116,7 +108,7 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [X] **Fix all_ projects pagination**
 ***
-[] **Fix delete project modal**
+[X] **Fix new skill modal**
 ***
 [X] **Fix save empty image**
 ***
@@ -146,7 +138,7 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [] **Implement differentiated settings.py**
 ***
-[] **Remove the ability to add the same position - custom clean on position field**
+[X] **Remove the ability to add the same position - custom clean on position field**
 ***
 [X] **Fix messages placement**
 ***
@@ -160,9 +152,28 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [X] **On index page click on project title**
 ***
-[] **Add in form errors**
+[X] **Add in form errors**
 ***
 [] **Add in error pages - 404 etc**
 ***
-
-
+[] **Remove all print statements and pdb references**
+***
+[X] **Beautify code**
+***
+[X] **Fix all template titles**
+***
+[X] **refactor all form_valid()**
+***
+[] **add in management of users**
+***
+[] **change out render_to_response**
+***
+[] **upgrade to version 2.1**
+***
+[] **create send email mixin**
+***
+[X] **edit_project position form errors**
+***
+[X] **fix user being able accept his own applications**
+***
+[X] **change context project_detail**

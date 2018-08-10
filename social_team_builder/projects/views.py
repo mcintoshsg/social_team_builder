@@ -2,15 +2,14 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse_lazy
-from django.db import IntegrityError
 from django.db.models import Q
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import (ListView, CreateView, DeleteView,
-                                  UpdateView, DetailView, RedirectView)  
+                                  UpdateView, DetailView, RedirectView)
 from django.urls import reverse
 
 from accounts.models import User
+from accounts.forms import SkillFormSet
 from . import forms
 from . import models
 
@@ -30,10 +29,10 @@ class AllProjectsView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         ''' get the queryset to use in the template '''
         return models.Project.objects.filter(
-                            completed=False
-                            ).prefetch_related(
-                            'position_set'
-                            ).order_by('id')
+            completed=False
+        ).prefetch_related(
+            'position_set'
+        ).order_by('id')
 
 
 class NewProjectView(LoginRequiredMixin, CreateView):
@@ -51,20 +50,22 @@ class NewProjectView(LoginRequiredMixin, CreateView):
         context = super(NewProjectView, self).get_context_data(**kwargs)
         if self.request.POST:
             context['position_form'] = forms.PositionFormSet(
-                                                data=self.request.POST)
+                data=self.request.POST)
         else:
             context['position_form'] = forms.PositionFormSet()
+        # skill_form is passed to be used in the modal to add a new skill
+        context['skill_form'] = SkillFormSet(
+            queryset=models.Skill.objects.none()
+        )
         return context
 
     def form_valid(self, form, **kwargs):
         context = self.get_context_data()
         positions = context['position_form']
-        if form.is_valid():
+        if form.is_valid() and positions.is_valid():
             form = form.save(commit=False)
             form.owner = self.request.user
             form.save()
-        if positions.is_valid():
-            pdb.set_trace()
             project = models.Project.objects.last()
             for position in positions:
                 position = position.save(commit=False)
@@ -72,13 +73,12 @@ class NewProjectView(LoginRequiredMixin, CreateView):
                 position.save()
             messages.success(self.request,
                              '{} Project created successfully'.format(
-                              project.name
-                              ))
+                                 project.name
+                             ))
         else:
-            messages.warning(self.request,
-                             'duplicate positions are not allowed')
-            # this does not work...                 
-            return self.render_to_response(self.get_context_data(**kwargs))
+            return self.render_to_response(
+                {'form': form,
+                 'position_form': positions})
         return super(NewProjectView, self).form_valid(form)
 
     def get_success_url(self):
@@ -93,7 +93,7 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
 
 class DeleteProjectView(LoginRequiredMixin, DeleteView):
     model = models.Project
-    success_url = reverse_lazy("projects:all")
+    success_url = reverse_lazy('projects:all')
 
     def delete(self, *args, **kwargs):
         messages.success(self.request, "Project successfully deleted")
@@ -109,10 +109,10 @@ class EditProjectView(LoginRequiredMixin, UpdateView):
     form_class = forms.ProjectForm
 
     def get_context_data(self, **kwargs):
-        context = super(EditProjectView, self).get_context_data(**kwargs)  
+        context = super(EditProjectView, self).get_context_data(**kwargs)
         if self.request.POST:
             context['position_form'] = forms.PositionFormSet(
-                                                    data=self.request.POST)
+                data=self.request.POST)
         else:
             queryset = self.object.position_set.all()
             context['position_form'] = forms.PositionFormSet(queryset=queryset)
@@ -121,11 +121,10 @@ class EditProjectView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         context = self.get_context_data()
         positions = context['position_form']
-        if form.is_valid():
+        if form.is_valid() and positions.is_valid():
             form = form.save(commit=False)
             form.owner = self.request.user
             form.save()
-        if positions.is_valid():
             for position in positions:
                 # if this is a change in on a current position - update
                 # else the position is new so we need to create
@@ -134,23 +133,23 @@ class EditProjectView(LoginRequiredMixin, UpdateView):
                     description = position.cleaned_data['description']
                     if position.cleaned_data['id']is not None:
                         pos = models.Position.objects.get(
-                                            id=position.cleaned_data['id'].id)
+                            id=position.cleaned_data['id'].id)
                         pos.skill = skill
                         pos.description = description
                         pos.save()
                     else:
                         models.Position.objects.create(
-                                                    skill=skill,
-                                                    description=description,
-                                                    project=self.object)                   
+                            skill=skill,
+                            description=description,
+                            project=self.object)
         else:
-            # add in a more robust set of fail conditions
-            print(positions.errors)
-
+            return self.render_to_response(
+                {'form': form,
+                 'position_form': positions})
         messages.success(self.request,
                          '{} project updated successfully'.format(
-                          self.object
-                           ))
+                             self.object
+                         ))
         return super(EditProjectView, self).form_valid(form)
 
     def get_success_url(self):
@@ -187,7 +186,7 @@ class CompletedProjectView(LoginRequiredMixin, RedirectView):
                       thanks for all your hard work
                       \n\nRegards,
                       {}'''.format(applicant.applicant.display_name,
-                                   project.name,  
+                                   project.name,
                                    project.owner)
         from_email = '{}'.format(project.owner)
         to_email = applicant.applicant.email
@@ -209,7 +208,7 @@ class SearchProjectView(ListView):
 
     def get_queryset(self):
         '''
-        search the projects models, name and description fields for a 
+        search the projects models, name and description fields for a
         query string sent in by the user. the reqults will only contain
         projects that a current
         '''
@@ -219,9 +218,9 @@ class SearchProjectView(ListView):
                 Q(name__icontains=search_criteria) |
                 Q(description__icontains=search_criteria),
                 completed=False,
-                ).prefetch_related(
-                                'position_set'
-                                ).order_by('id')
+            ).prefetch_related(
+                'position_set'
+            ).order_by('id')
             if results:
                 return results
             else:
@@ -251,7 +250,7 @@ class FilterProjectView(ListView):
         results = models.Project.objects.filter(
             position__skill=filter_id,
             completed=False
-            )
+        )
 
         if results:
             return results
@@ -270,15 +269,15 @@ class ApplyView(AllProjectsView):
         ''' create the new application '''
         position = models.Position.objects.get(pk=self.kwargs['pk'])
         application, created = models.Applications.objects.get_or_create(
-                                        position=position,
-                                        applicant=self.request.user)
+            position=position,
+            applicant=self.request.user)
         if created:
             messages.success(self.request,
                              'Your application for {} was posted'.format
                              (position.skill))
         else:
             messages.info(self.request,
-                             'You have already applied for this position')
+                          'You have already applied for this position')
         self.object_list = self.get_queryset()
         context = self.get_context_data(object_list=self.object_list)
         return self.render_to_response(context)
@@ -301,16 +300,16 @@ class ApplicationsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return models.Applications.objects.filter(
-                                        applicant=self.request.user)
+            applicant=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super(ApplicationsView, self).get_context_data(**kwargs)
         all_skills = []
         owned_projects = models.Project.objects.filter(
-                                                owner=self.request.user
-                                                ).prefetch_related(
-                                                    'position_set'
-                                                )
+            owner=self.request.user
+        ).prefetch_related(
+            'position_set'
+        )
         for project in owned_projects:
             for position in project.position_set.all():
                 all_skills.append(position.skill)
@@ -325,6 +324,7 @@ class ApplicationAcceptView(LoginRequiredMixin, RedirectView):
     '''
         controller to accept position applications
     '''
+
     def get(self, request, *args, **kwargs):
         '''Accepts or regjects the applicants and sends a confirmation email
         Arguments:
@@ -352,7 +352,7 @@ class ApplicationAcceptView(LoginRequiredMixin, RedirectView):
                     application.status = 'Rejected'
                     self.send_response(position, application.applicant,
                                        'Rejected')
-            application.save()                           
+            application.save()
         else:
             applicant = models.Applications.objects.get(position=position,
                                                         applicant=user)
@@ -378,3 +378,32 @@ class ApplicationAcceptView(LoginRequiredMixin, RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         return reverse('projects:applications')
+
+
+class AddSkillView(LoginRequiredMixin, RedirectView):
+    ''' Provides the ability to add in a new skill, must be unique!
+        this view is called via a modal included in the new_project tempalate
+        the context for the modal is passed to the new_project template
+        via the NewProjectView
+    '''
+
+    def post(self, request, *args, **kwargs):
+        formset = SkillFormSet(self.request.POST)
+        if formset.is_valid():
+            for form in formset:
+                skill = form.cleaned_data['skill_type']
+                obj, created = models.Skill.objects.get_or_create(
+                    skill_type=skill
+                )
+                if created:
+                    messages.success(
+                        self.request,
+                        '{} position has been created!'.format(obj.skill_type))
+        else:
+            # this is ugly - refactor!
+            messages.info(self.request, '{} position already exists!'.format(
+                formset[0]['skill_type'].value()))
+        return super(AddSkillView, self).post(request, *args, **kwargs)
+
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('projects:new')

@@ -1,96 +1,107 @@
 {% extends "layout.html" %}
 {% load static from staticfiles %}
 
-{% block title_tag %}Profile| {{ block.super }}{% endblock %}
+{% block title_tag %}Profile | {{ block.super }}{% endblock %}
 
 {% block body_content %}
-  <div class="circle--actions--bar">
-    <nav class="bounds">
-      <ul class="circle--pill--list">
-        <li><a href="{% url 'projects:applications' %}">Applications</a></li>
-        <li><a class="selected" href="{% url 'accounts:profile' pk=user.id %}">Profile</a></li>
-      </ul>
-    </nav>
+<div class="circle--actions--bar">
+  <nav class="bounds">
+    <ul class="circle--pill--list">
+      <li>
+        <a href="{% url 'projects:applications' %}">Applications</a>
+      </li>
+      <li>
+        <a class="selected" href="{% url 'accounts:profile' pk=user.id %}">Profile</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+{% include "_messages.html" %}
+
+<div class="bounds circle--page">
+  <div class="circle--page--header circle--fluid">
+    <div class="circle--fluid--cell circle--fluid--primary">
+      <h2>Profile</h2>
+    </div>
+    <div class="circle--fluid--cell circle--fluid--secondary">
+      {% if user != profile_user %}
+      <a class="button button-primary button-inactive">Edit</a>
+      {% else %}
+      <a class="button icon-on-left" href="{% url 'accounts:edit' pk=user.id %}">Edit</a>
+      {% endif %}
+    </div>
   </div>
-  {% include "_messages.html" %} 
 
-  <div class="bounds circle--page">
-    <div class="circle--page--header circle--fluid">
-      <div class="circle--fluid--cell circle--fluid--primary">
-        <h2>Profile</h2>
-      </div>
-      <div class="circle--fluid--cell circle--fluid--secondary">
-        {% if user != profile_user %}
-          <a class="button button-primary button-inactive">Edit</a>
-        {% else %}
-          <a class="button icon-on-left" href="{% url 'accounts:edit' pk=user.id %}">Edit</a>
-        {% endif %}  
-      </div>
+  <div class="grid-70">
+    <h1>{{ profile_user.display_name }}</h1>
+    <div class="circle--article--body">
+      {{ profile_user.bio | linebreaks }}
     </div>
 
-    <div class="grid-70">
-      <h1>{{ profile_user.display_name }}</h1>
-      <div class="circle--article--body">
-        {{ profile_user.bio | linebreaks }}
-      </div>  
-      
-      <h2>Past Projects</h2>
-      <table class="u-full-width circle--table">
-        <thead>
-          <tr>
-            <th>Project Title</th>
-            <th class="circle--cell--right">Project Needs</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for project in past_projects %}
-            <tr class="clickable-row" data-href="project.html">
-              <td>
-                <h4><a href="{% url 'projects:detail' pk=project.pk %}">{{ project.name }}</a></h4>
-              </td>
-              <td class="circle--cell--right">
-                {% for position in project.position_set.all %}
-                    <span class="secondary-label">{{ position.skill }} |  </span>
-                {% endfor %} 
-                </td>
-          {% empty %}
-            <td>
-                <h3>You have no past projects</h3>
-            </td>      
-           </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    <div class="grid-25 grid-push-5">
-
-      <div class="circle--secondary--module">
-          <img src="{% static '/media/' %}{{ profile_user.avatar }}" alt="my image"/>
-      </div>
-
-      <div class="circle--secondary--module">
-        <h4>My Skills</h4>
-        <ul class="unloaded">
-          {% for skill in user_skills %}
-            <li><a>{{ skill.skill }}</a></li>
-          {% empty %}
-            <li> You have yet to log your skills</li>
-          {% endfor %}  
-        </ul>
-      </div>
-
-      <div class="circle--secondary--module">
-          <h4>My Projects</h4>
-          <ul class="circle--link--list">
-            {% for project in owned_projects %}
-            <li><a href="{% url 'projects:detail' pk=project.pk %}">{{ project.name }}</a></li>
-            {% empty %}
-            <li>You have not created any projects</li>
+    <h2>Past Projects</h2>
+    <table class="u-full-width circle--table">
+      <thead>
+        <tr>
+          <th>Project Title</th>
+          <th class="circle--cell--right">Project Needs</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for project in past_projects %}
+        <tr class="clickable-row" data-href="project.html">
+          <td>
+            <h4>
+              <a href="{% url 'projects:detail' pk=project.pk %}">{{ project.name }}</a>
+            </h4>
+          </td>
+          <td class="circle--cell--right">
+            {% for position in project.position_set.all %}
+            <span class="secondary-label">{{ position.skill }} | </span>
             {% endfor %}
-          </ul>
-        </div>
-      </div>
-
+          </td>
+          {% empty %}
+          <td>
+            <h3>You have no past projects</h3>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
+
+  <div class="grid-25 grid-push-5">
+
+    <div class="circle--secondary--module">
+      <img src="{% static '/media/' %}{{ profile_user.avatar }}" alt="my image" />
+    </div>
+
+    <div class="circle--secondary--module">
+      <h4>My Skills</h4>
+      <ul class="unloaded">
+        {% for skill in user_skills %}
+        <li>
+          <a>{{ skill.skill }}</a>
+        </li>
+        {% empty %}
+        <li> You have yet to log your skills</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="circle--secondary--module">
+      <h4>My Projects</h4>
+      <ul class="circle--link--list">
+        {% for project in owned_projects %}
+        <li>
+          <a href="{% url 'projects:detail' pk=project.pk %}">{{ project.name }}</a>
+        </li>
+        {% empty %}
+        <li>You have not created any projects</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
