@@ -1,12 +1,11 @@
 {% extends "layout.html" %}
+{% load bootstrap4 %}
+{% block title_tag %}Bad request| {{ block.super }}{% endblock %}
 
-{% block title %}
-Bad Request
-{% endblock %}
 
-{% block content %}
-  <div class="row">
-    <div class="offset-by-two eight columns">
+{% block body_content %}
+<div class="grid-90 centered">
+    <div class="">
       <h1>Bad Request</h1>
       <p>The computer on our end didn't understand
         the computer on your end.</p>

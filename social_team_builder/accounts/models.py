@@ -59,3 +59,8 @@ class User(AbstractUser):
 
     def get_absolute_url(self):
         return reverse('accounts:profile', kwargs={'pk': self.pk})
+
+    class Meta:
+        permissions = (
+            ("can_control", "Can control"),
+        )

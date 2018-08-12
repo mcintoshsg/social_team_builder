@@ -1,17 +1,12 @@
 {% extends "layout.html" %}
+{% load bootstrap4 %}
+{% block title_tag %}Page Not Found | {{ block.super }}{% endblock %}
 
-{% block title %}
-Bad Request
-{% endblock %}
-
-{% block content %}
-  <div class="row">
-    <div class="offset-by-two eight columns">
-      <h1>Bad Request</h1>
-      <p>The computer on our end didn't understand
-        the computer on your end.</p>
-      <p>Are you sure you've got the right
-        URL?</p>
-    </div>
+{% block body_content %}
+  <div class="grid-90 centered">
+    <div class="">
+      <h1>Page Not Found</h1>
+      <p>The path {{ request.path }} is not a
+        webpage on this site!</p>
   </div>
 {% endblock %}

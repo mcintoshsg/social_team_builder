@@ -2,6 +2,7 @@ from django.contrib.auth import logout
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from django.views.generic import (RedirectView, CreateView, UpdateView,
                                   DetailView)
 from django.urls import reverse
@@ -46,7 +47,8 @@ class ProfileView(LoginRequiredMixin, DetailView):
         '''
         context = super(ProfileView, self).get_context_data(**kwargs)
         profile_user = kwargs['object']
-        owned_projects = models.Project.objects.filter(owner=profile_user)
+        owned_projects = models.Project.objects.filter(
+            owner=profile_user).prefetch_related('position_set')
         past_projects = owned_projects.filter(completed=True)
         user_skills = models.UserSkill.objects.filter(user=profile_user)
 
@@ -115,9 +117,8 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
                     self.request.user.display_name
                 ))
         else:
-            return self.render_to_response(
-                {'form': form,
-                 'skill_form': skills})
+            context = {'form': form, 'skill_form': skills}
+            return render(self.request, self.template_name, context)
         return super(EditProfileView, self).form_valid(form)
 
     def get_success_url(self):

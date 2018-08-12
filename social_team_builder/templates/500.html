@@ -1,17 +1,15 @@
 {% extends "layout.html" %}
-
-{% block title %}
-Bad Request
-{% endblock %}
+{% load bootstrap4 %}
+{% block title_tag %}Server Error | {{ block.super }}{% endblock %}
 
 {% block content %}
   <div class="row">
     <div class="offset-by-two eight columns">
-      <h1>Bad Request</h1>
-      <p>The computer on our end didn't understand
-        the computer on your end.</p>
-      <p>Are you sure you've got the right
-        URL?</p>
+      <h1>Server Error</h1>
+      <p>The computer on our end made a
+      mistake. We've been notified, and will fix
+      the problem as soon as possible.</p>
+      <p>Try again later.</p>
     </div>
   </div>
 {% endblock %}

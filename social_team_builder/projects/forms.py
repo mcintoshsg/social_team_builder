@@ -28,8 +28,7 @@ class ProjectForm(forms.ModelForm):
 
 class PositionForm(forms.ModelForm):
     skill = forms.ModelChoiceField(
-        queryset=models.Skill.objects.all()
-    )
+        queryset=models.Skill.objects.all())
     description = forms.CharField(widget=forms.Textarea(
         attrs={'placeholder': 'position description...'}))
 

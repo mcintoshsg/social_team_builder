@@ -154,7 +154,7 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [X] **Add in form errors**
 ***
-[] **Add in error pages - 404 etc**
+[X] **Add in error pages - 404 etc**
 ***
 [] **Remove all print statements and pdb references**
 ***
@@ -166,7 +166,7 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [] **add in management of users**
 ***
-[] **change out render_to_response**
+[X] **change out render_to_response**
 ***
 [] **upgrade to version 2.1**
 ***
@@ -177,3 +177,5 @@ You're going to build a site where people can sign up to find projects that need
 [X] **fix user being able accept his own applications**
 ***
 [X] **change context project_detail**
+***
+[] **fix permissions**

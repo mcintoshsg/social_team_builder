@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import (ListView, CreateView, DeleteView,
                                   UpdateView, DetailView, RedirectView)
 from django.urls import reverse
@@ -13,7 +13,6 @@ from accounts.forms import SkillFormSet
 from . import forms
 from . import models
 
-import pdb
 
 class AllProjectsView(LoginRequiredMixin, ListView):
     '''
@@ -76,9 +75,8 @@ class NewProjectView(LoginRequiredMixin, CreateView):
                                  project.name
                              ))
         else:
-            return self.render_to_response(
-                {'form': form,
-                 'position_form': positions})
+            context = {'form': form, 'position_form': positions}
+            return render(self.request, self.template_name, context)
         return super(NewProjectView, self).form_valid(form)
 
     def get_success_url(self):
@@ -143,9 +141,8 @@ class EditProjectView(LoginRequiredMixin, UpdateView):
                             description=description,
                             project=self.object)
         else:
-            return self.render_to_response(
-                {'form': form,
-                 'position_form': positions})
+            context = {'form': form, 'position_form': positions}
+            return render(self.request, self.template_name, context)
         messages.success(self.request,
                          '{} project updated successfully'.format(
                              self.object
@@ -168,14 +165,17 @@ class CompletedProjectView(LoginRequiredMixin, RedirectView):
         project.completed = True
         project.save()
         # get all the positions and applicants of those positions
-        positions = project.position_set.all()
+        positions = project.position_set.all().prefetch_related(
+            'applications_set'
+        )
         for position in positions:
             for applicant in position.applications_set.all():
                 if applicant and applicant.applicant.email != __sent_applicant:
                     self.send_notification(project, applicant)
                     __sent_applicant = applicant.applicant.email
-        messages.success(self.request,
-                         "Notifications have been sent successfully")
+        messages.success(
+            self.request,
+            "Completed Project notifications have been sent successfully")
         return super(CompletedProjectView, self).get(request, *args, **kwargs)
 
     @staticmethod
@@ -280,7 +280,7 @@ class ApplyView(AllProjectsView):
                           'You have already applied for this position')
         self.object_list = self.get_queryset()
         context = self.get_context_data(object_list=self.object_list)
-        return self.render_to_response(context)
+        return render(request, self.template_name, context)
 
 
 class ApplicationsView(LoginRequiredMixin, ListView):
@@ -304,18 +304,18 @@ class ApplicationsView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ApplicationsView, self).get_context_data(**kwargs)
-        all_skills = []
+        all_skills = set()
         owned_projects = models.Project.objects.filter(
             owner=self.request.user
         ).prefetch_related(
-            'position_set'
+            'position_set', 'position_set__skill',
         )
         for project in owned_projects:
             for position in project.position_set.all():
-                all_skills.append(position.skill)
+                all_skills.add(position.skill)
 
         context['user'] = self.request.user
-        context['skill_set'] = set(all_skills)
+        context['skill_set'] = all_skills
         context['owned_projects'] = owned_projects
         return context
 
