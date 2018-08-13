@@ -99,3 +99,25 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
 # degbug toolbar
 INTERNAL_IPS = ['127.0.0.1']
+
+
+# Logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'ERROR'),
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/error_logs.txt')
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'ERROR'),
+            'propagate': True,
+        },
+    },
+}

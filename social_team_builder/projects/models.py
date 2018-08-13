@@ -35,10 +35,10 @@ class Project(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
     completed = models.BooleanField(default=False)
 
-    def save(self, *args, **kwargs):
-        permission = Permission.objects.get(name='Can control')
-        self.owner.user_premissions.add(permission)
-        super(Project, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     permission = Permission.objects.get(name='Can control')
+    #     self.owner.user_premissions.add(permission)
+    #     super(Project, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{} / {}'.format(

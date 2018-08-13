@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
@@ -12,6 +14,9 @@ from accounts.models import User
 from accounts.forms import SkillFormSet
 from . import forms
 from . import models
+
+
+logger = logging.getLogger(__name__)
 
 
 class AllProjectsView(LoginRequiredMixin, ListView):
@@ -193,7 +198,13 @@ class CompletedProjectView(LoginRequiredMixin, RedirectView):
         if subject and message and from_email:
             send_mail(subject, message, from_email, [to_email])
         else:
-            print('error with email')
+            logger.error(
+                '''Something went wrong! - 
+                Subject: {}, 
+                Message: {},
+                From: {},
+                To: {}'''.format(subject, message, from_email, to_email)
+            )
         return
 
     def get_redirect_url(self, *args, **kwargs):
@@ -373,7 +384,13 @@ class ApplicationAcceptView(LoginRequiredMixin, RedirectView):
         if subject and message and from_email:
             send_mail(subject, message, from_email, [to_email])
         else:
-            print('error with email')
+            logger.error(
+                '''Something went wrong! -
+                Subject: {},
+                Message: {},
+                From: {},
+                To: {}'''.format(subject, message, from_email, to_email)
+            )
         return
 
     def get_redirect_url(self, *args, **kwargs):

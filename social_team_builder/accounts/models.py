@@ -1,4 +1,6 @@
 ''' user model for the accounts app '''
+import logging
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.urlresolvers import reverse
@@ -7,6 +9,7 @@ from django.utils import timezone
 
 from PIL import Image
 
+logger = logging.getLogger(__name__)
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -38,7 +41,9 @@ class User(AbstractUser):
                     image.save(path, 'JPEG')
                     self.avatar = new_name
                 except IOError:
-                    print('image resize failed')
+                    logger.error(
+                    'Something went wrong with the image! - {}'.format(image)
+            )
         else:
             self.avatar = '/default_avatar.jpeg'
             # add in username
@@ -59,8 +64,3 @@ class User(AbstractUser):
 
     def get_absolute_url(self):
         return reverse('accounts:profile', kwargs={'pk': self.pk})
-
-    class Meta:
-        permissions = (
-            ("can_control", "Can control"),
-        )
