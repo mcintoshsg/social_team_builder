@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% load static from staticfiles %}
 
-{% block title_tag %}Profile | {{ block.super }}{% endblock %}
+{% block title_tag %}Profile | {{ user.display_name|title }}{% endblock %}
 
 {% block body_content %}
 <div class="circle--actions--bar">

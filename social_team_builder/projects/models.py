@@ -1,7 +1,7 @@
 from django.conf import settings
-from django.contrib.auth.models import Permission
 from django.db import models
 from django.urls import reverse
+
 
 class Skill(models.Model):
     skill_type = models.CharField(max_length=100, unique=True)
@@ -34,11 +34,6 @@ class Project(models.Model):
     timeline = models.CharField(max_length=30, null=False)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
     completed = models.BooleanField(default=False)
-
-    # def save(self, *args, **kwargs):
-    #     permission = Permission.objects.get(name='Can control')
-    #     self.owner.user_premissions.add(permission)
-    #     super(Project, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{} / {}'.format(

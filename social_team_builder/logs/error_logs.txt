@@ -1,0 +1,209 @@
+
+Internal Server Error: /accounts/signout/
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 207, in post
+    return self.get(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/social_team_builder/social_team_builder/accounts/views.py", line 21, in get
+    logout(request.user)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/contrib/auth/__init__.py", line 172, in logout
+    language = request.session.get(LANGUAGE_SESSION_KEY)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 239, in inner
+    return func(self._wrapped, *args)
+AttributeError: 'User' object has no attribute 'session'
+Internal Server Error: /accounts/signout/
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    "returned None instead." % (callback.__module__, view_name)
+ValueError: The view accounts.views.SignOutView didn't return an HttpResponse object. It returned None instead.
+Internal Server Error: /accounts/signout/
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/deprecation.py", line 142, in __call__
+    response = self.process_response(request, response)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/middleware/clickjacking.py", line 32, in process_response
+    if response.get('X-Frame-Options') is not None:
+AttributeError: 'str' object has no attribute 'get'
+Internal Server Error: /accounts/edit/1/
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 217, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 215, in _get_response
+    response = response.render()
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/response.py", line 107, in render
+    self.content = self.rendered_content
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/response.py", line 84, in rendered_content
+    content = template.render(context, self._request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/backends/django.py", line 66, in render
+    return self.template.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 207, in render
+    return self._render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/test/utils.py", line 107, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 990, in render
+    bit = node.render_annotated(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 957, in render_annotated
+    return self.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 177, in render
+    return compiled_parent._render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/test/utils.py", line 107, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 990, in render
+    bit = node.render_annotated(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 957, in render_annotated
+    return self.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 72, in render
+    result = block.nodelist.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 990, in render
+    bit = node.render_annotated(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 957, in render_annotated
+    return self.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 1040, in render
+    output = self.filter_expression.resolve(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 708, in resolve
+    obj = self.var.resolve(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 849, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 882, in _resolve_lookup
+    current = current[bit]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 78, in __getitem__
+    return self.forms[index]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 144, in forms
+    for i in range(self.total_form_count())]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 116, in total_form_count
+    return min(self.management_form.cleaned_data[TOTAL_FORM_COUNT], self.absolute_max)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 98, in management_form
+    code='missing_management_form',
+django.core.exceptions.ValidationError: ['ManagementForm data is missing or has been tampered with']
+Internal Server Error: /accounts/edit/1/
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 217, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 215, in _get_response
+    response = response.render()
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/response.py", line 107, in render
+    self.content = self.rendered_content
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/response.py", line 84, in rendered_content
+    content = template.render(context, self._request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/backends/django.py", line 66, in render
+    return self.template.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 207, in render
+    return self._render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/test/utils.py", line 107, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 990, in render
+    bit = node.render_annotated(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 957, in render_annotated
+    return self.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 177, in render
+    return compiled_parent._render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/test/utils.py", line 107, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 990, in render
+    bit = node.render_annotated(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 957, in render_annotated
+    return self.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 72, in render
+    result = block.nodelist.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 990, in render
+    bit = node.render_annotated(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 957, in render_annotated
+    return self.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 1040, in render
+    output = self.filter_expression.resolve(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 708, in resolve
+    obj = self.var.resolve(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 849, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 882, in _resolve_lookup
+    current = current[bit]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 78, in __getitem__
+    return self.forms[index]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 144, in forms
+    for i in range(self.total_form_count())]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 116, in total_form_count
+    return min(self.management_form.cleaned_data[TOTAL_FORM_COUNT], self.absolute_max)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 98, in management_form
+    code='missing_management_form',
+django.core.exceptions.ValidationError: ['ManagementForm data is missing or has been tampered with']
+Internal Server Error: /accounts/edit/1/
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 217, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 215, in _get_response
+    response = response.render()
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/response.py", line 107, in render
+    self.content = self.rendered_content
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/response.py", line 84, in rendered_content
+    content = template.render(context, self._request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/backends/django.py", line 66, in render
+    return self.template.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 207, in render
+    return self._render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/test/utils.py", line 107, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 990, in render
+    bit = node.render_annotated(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 957, in render_annotated
+    return self.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 177, in render
+    return compiled_parent._render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/test/utils.py", line 107, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 990, in render
+    bit = node.render_annotated(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 957, in render_annotated
+    return self.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/loader_tags.py", line 72, in render
+    result = block.nodelist.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 990, in render
+    bit = node.render_annotated(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 957, in render_annotated
+    return self.render(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 1040, in render
+    output = self.filter_expression.resolve(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 708, in resolve
+    obj = self.var.resolve(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 849, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/template/base.py", line 882, in _resolve_lookup
+    current = current[bit]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 78, in __getitem__
+    return self.forms[index]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 144, in forms
+    for i in range(self.total_form_count())]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 116, in total_form_count
+    return min(self.management_form.cleaned_data[TOTAL_FORM_COUNT], self.absolute_max)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 98, in management_form
+    code='missing_management_form',
+django.core.exceptions.ValidationError: ['ManagementForm data is missing or has been tampered with']

@@ -134,9 +134,9 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [X] **Fix showing completed projects on all project view**
 ***
-[] **Implement logging for serious errors**
+[X] **Implement logging for serious errors**
 ***
-[] **Implement differentiated settings.py**
+[X] **Implement differentiated settings.py**
 ***
 [X] **Remove the ability to add the same position - custom clean on position field**
 ***
@@ -146,7 +146,7 @@ You're going to build a site where people can sign up to find projects that need
 ***
 [X] **Change worked_on_projects to completed_projects**
 ***
-[] **Speed up project**
+[X] **Speed up project**
 ***
 [X] **Index page only show current (non-completed) projects**
 ***
@@ -155,8 +155,6 @@ You're going to build a site where people can sign up to find projects that need
 [X] **Add in form errors**
 ***
 [X] **Add in error pages - 404 etc**
-***
-[] **Remove all print statements and pdb references**
 ***
 [X] **Beautify code**
 ***
@@ -177,5 +175,3 @@ You're going to build a site where people can sign up to find projects that need
 [X] **fix user being able accept his own applications**
 ***
 [X] **change context project_detail**
-***
-[] **fix permissions**

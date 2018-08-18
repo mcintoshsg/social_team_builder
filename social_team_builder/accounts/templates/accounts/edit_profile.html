@@ -1,7 +1,7 @@
 {% extends "layout.html" %} 
 {% load static from staticfiles %} 
 {% load i18n %} 
-{% block title_tag %}Profile Edit | {{ block.super }}{% endblock %} 
+{% block title_tag %}Edit Profile | {{ user.display_name|title }}{% endblock %} 
 
 {% block body_content %} 
 

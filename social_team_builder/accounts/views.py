@@ -11,11 +11,12 @@ from . import forms
 from . models import User
 from projects import models
 
+import pdb
 
 class SignOutView(RedirectView):
     # reverse_lazy needed as the URL config is no loaded typical
     # in classbased views
-    url = reverse_lazy("home")
+    url = reverse_lazy('home')
 
     def get(self, request, *args, **kwargs):
         logout(request)
@@ -24,8 +25,8 @@ class SignOutView(RedirectView):
 
 class SignUpView(CreateView):
     form_class = forms.UserCreateForm
-    success_url = reverse_lazy("login")
-    template_name = "accounts/signup.html"
+    success_url = reverse_lazy('login')
+    template_name = 'accounts/signup.html'
 
 
 class ProfileView(LoginRequiredMixin, DetailView):

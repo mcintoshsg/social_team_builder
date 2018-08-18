@@ -11,6 +11,7 @@ from PIL import Image
 
 logger = logging.getLogger(__name__)
 
+
 class User(AbstractUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=40, unique=True)
@@ -42,8 +43,9 @@ class User(AbstractUser):
                     self.avatar = new_name
                 except IOError:
                     logger.error(
-                    'Something went wrong with the image! - {}'.format(image)
-            )
+                        'Something went wrong with the image! - {}'.format(
+                            image)
+                    )
         else:
             self.avatar = '/default_avatar.jpeg'
             # add in username
