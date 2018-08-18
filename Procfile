@@ -1,1 +1,1 @@
-web: gunicorn social_team_builder.deploy --log-file -
+web: gunicorn --pythonpath social_team_builder social_team_builder.deploy --log-file -
