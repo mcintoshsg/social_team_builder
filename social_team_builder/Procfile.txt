@@ -1,1 +1,0 @@
-web: gunicorn socialteams.deploy --log-file -
