@@ -1,1 +1,1 @@
-web: gunicorn socialteams.wgsi --log-file -
+web: gunicorn socialteams.deploy --log-file -
