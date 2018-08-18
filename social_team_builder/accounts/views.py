@@ -11,7 +11,6 @@ from . import forms
 from . models import User
 from projects import models
 
-import pdb
 
 class SignOutView(RedirectView):
     # reverse_lazy needed as the URL config is no loaded typical

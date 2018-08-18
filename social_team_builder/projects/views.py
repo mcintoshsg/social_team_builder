@@ -21,8 +21,9 @@ logger = logging.getLogger(__name__)
 
 class AllProjectsView(LoginRequiredMixin, ListView):
     '''
-    List out all the projects - login in is required as you can apply for
-    a project on the page. Overide the quesryset to only pass in the projects
+    List out all the projects
+    1. login is required as you can apply for a project on the page.
+    2. Overide the quesryset to only pass in the projects
     that are not completed
     '''
     template_name = 'projects/all_projects.html'
