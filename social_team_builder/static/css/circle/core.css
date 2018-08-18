@@ -70,7 +70,7 @@ Backtrace:
 /Users/Tyson/.rvm/gems/ruby-2.2.1/gems/sass-3.4.21/vendor/listen/lib/listen/adapter.rb:323:in `poll_changed_directories'
 /Users/Tyson/.rvm/gems/ruby-2.2.1/gems/sass-3.4.21/vendor/listen/lib/listen/adapter.rb:299:in `block in start_poller'
 */
-body:before {
+/* body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$body-font\".\A         on line 16 of /Users/Tyson/circle/sass/circle/core/base.sass\A         from line 3 of /Users/Tyson/circle/sass/circle/core.sass\A \A 11: @import \"core/spacing\"\A 12: @import \"core/utilities\""; }
+  content: "Error: Undefined variable: \"$body-font\".\A         on line 16 of /Users/Tyson/circle/sass/circle/core/base.sass\A         from line 3 of /Users/Tyson/circle/sass/circle/core.sass\A \A 11: @import \"core/spacing\"\A 12: @import \"core/utilities\""; } */
