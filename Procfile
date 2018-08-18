@@ -1,0 +1,1 @@
+web: gunicorn social_team_builder.deploy --log-file -
