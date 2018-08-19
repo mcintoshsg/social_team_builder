@@ -29,7 +29,7 @@ class BaseTestCase(TestCase):
             'bio': 'test bio 2',
             'avatar': '',
         }
-        self.skill_1 = Skill.objects.create(skill_type='Python Developer')
+
         self.user_1 = User.objects.create(**user_data_1)
         self.user_1.set_password('XGEyPfoMRNYTo7A#yWLnKEht')
         self.user_1.save()
@@ -38,18 +38,21 @@ class BaseTestCase(TestCase):
         self.user_2.set_password('XGEyPfoMRNYTo7A#yWLnKEht')
         self.user_2.save()
 
+        self.skill_1 = Skill.objects.create(skill_type='Python Developer')
+        self.skill_2 = Skill.objects.create(skill_type='Django Developer')
+
         self.user_skills_1 = UserSkill.objects.create(
             skill=self.skill_1,
             user=self.user_1
         )
-        project_data_1 = {
+        self.project_data_1 = {
             'name': 'Project 1',
             'description': 'Big Project',
             'requirements': 'Work long Hours',
             'timeline': '1000 hours',
             'owner': self.user_1,
         }
-        project_data_2 = {
+        self.project_data_2 = {
             'name': 'Project 2',
             'description': 'Small Project',
             'requirements': 'New York',
@@ -57,8 +60,8 @@ class BaseTestCase(TestCase):
             'owner': self.user_1,
         }
 
-        self.project_1 = Project.objects.create(**project_data_1)
-        self.project_2 = Project.objects.create(**project_data_2)
+        self.project_1 = Project.objects.create(**self.project_data_1)
+        self.project_2 = Project.objects.create(**self.project_data_2)
 
         position_data = {
             'skill': self.skill_1,
@@ -74,12 +77,16 @@ class BaseTestCase(TestCase):
         }
         self.application_1 = Applications.objects.create(**application_data)
 
-        position_formset_data = {
+        self.position_formset_data = {
+            'name': 'Project 1000',
+            'description': 'Great Big Project',
+            'requirements': 'Work long Hours',
+            'timeline': '1000 hours',
             'form-TOTAL_FORMS': '1',
             'form-INITIAL_FORMS': '0',
             'form-MIN_NUM_FORMS': '',
             'form-MAX_NUM_FORMS': '',
-            'form-0-skill': self.skill_1,
+            'form-0-skill': self.skill_1.id,
             'form-0-description': 'Develop backend'
         }
 
@@ -88,16 +95,18 @@ class BaseTestCase(TestCase):
             'description': 'This project got BIGGER',
             'requirements': 'Work long Hours',
             'timeline': '1000 hours',
-            'owner': self.user_1,
-            'form-TOTAL_FORMS': '2',
+            'form-TOTAL_FORMS': '1',
             'form-INITIAL_FORMS': '0',
             'form-MIN_NUM_FORMS': '',
             'form-MAX_NUM_FORMS': '',
-            'form-0-skill': 'Python Developer',
-            'form-0-description': 'Develop backend' 
+            'form-0-skill': self.skill_2.id,
+            'form-0-description': 'Develop backend'
         }
 
-        self.project_post_data = {**project_data_2, **position_formset_data}
+        self.project_post_data = {
+            **self.project_data_2,
+            **self.position_formset_data
+            }
 
         self.client = Client()
 
@@ -114,7 +123,7 @@ class SkillModelTest(BaseTestCase):
 
     def test_saving_and_retrieving_skills(self):
         saved_skills = Skill.objects.all()
-        self.assertEqual(saved_skills.count(), 1)
+        self.assertEqual(saved_skills.count(), 2)
         self.assertEqual(saved_skills[0].skill_type, self.skill_1.skill_type)
 
 
@@ -159,20 +168,22 @@ class ProjectsViewTest(BaseTestCase):
         self.assertTemplateUsed(response, 'projects/all_projects.html')
         self.assertContains(response, self.project_1.name)
 
-    def test_new_project_view(self):
+    def test_get_new_project_view(self):
         self.login()
         response = self.client.get('/projects/new/')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'projects/new_project.html')
+
+    def test_post_new_project_view(self):
+        self.login()
         response = self.client.post(
             '/projects/new/',
-            self.project_post_data
-        )
-        # print(response.content)
-        # self.assertEqual(response.status_code, 200)
-        # response = self.client.get('/projects/all/')
-        # self.assertContains(response, 'Bigger Project')
-
+            self.position_formset_data,
+            follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response,
+                            'Project 1000 Project created successfully')
+     
     def test_project_detail_view(self):
         self.login()
         response = self.client.get(reverse(
@@ -222,10 +233,8 @@ class ProjectsViewTest(BaseTestCase):
             kwargs={'pk': self.project_1.id}),
             self.edit_project_data, follow=True
         )
-        # self.assertEqual(response.status_code, 200)
-        # self.assertContains(response, 'Big Project')
-        # self.assertTemplateUsed(response, 'projects/edit_project.html')
-        # print(response.content)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'This project got BIGGER')
 
     def test_completed_project_view(self):
         self.login()
@@ -313,3 +322,61 @@ class ProjectsViewTest(BaseTestCase):
         self.assertRedirects(response,
                              reverse('projects:new'),
                              status_code=302)
+
+
+##################
+# Test Forms
+##################
+class PorjectFormTests(BaseTestCase):
+    ''' test out all the forms '''
+
+    def test_project_form_valid(self):
+        data = {
+            'name': 'Project 1100',
+            'description': 'Massive Project',
+            'requirements': 'Work long Hours',
+            'timeline': '1000 hours',
+        }
+        form = ProjectForm(data=data)
+        self.assertTrue(form.is_valid())
+        self.assertTrue(form.cleaned_data['timeline'],
+                        '1000 hours')
+
+    def test_project_form_not_valid(self):
+        form = ProjectForm(data={})
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['name'],
+                         ['This field is required.'])
+
+    def test_position_form_valid(self):
+        form = PositionForm(data={
+            'skill': self.skill_1.id,
+            'description': 'Python',
+        })
+        self.assertTrue(form.is_valid())
+        self.assertTrue(form.cleaned_data['description'],
+                        'Python')
+
+    def test_position_form_not_valid(self):
+        form = PositionForm(data={
+            'skill': 'Angular',
+            'description': '',
+        })
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors['skill'],
+            ['Select a valid choice. That choice is not one of the available choices.'])
+
+    def test_position_formset_valid(self):
+        data = {
+            'form-TOTAL_FORMS': '1',
+            'form-INITIAL_FORMS': '0',
+            'form-MIN_NUM_FORMS': '',
+            'form-MAX_NUM_FORMS': '',
+            'form-0-skill': self.skill_1.id,
+            'form-0-description': 'Develop backend'
+        }
+        formset = PositionFormSet(data=data)
+        self.assertTrue(formset.is_valid())
+        self.assertTrue(formset.cleaned_data[0]['skill'],
+                        'Python Devloper')

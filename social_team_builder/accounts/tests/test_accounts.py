@@ -155,13 +155,13 @@ class AccountsViewsTest(TestCase):
 class AccountsFormTests(TestCase):
     ''' test out all the forms '''
 
-    def test_UserCreateForm_valid(self):
+    def test_user_create_form_valid(self):
         form = UserCreateForm(data=sign_up_data)
         self.assertTrue(form.is_valid())
         self.assertTrue(form.cleaned_data['display_name'],
                         'stuart mcintosh')
 
-    def test_UserCreateForm_not_valid(self):
+    def test_user_create_form_not_valid(self):
         form = UserCreateForm(data=sign_up_data_bad)
         self.assertFalse(form.is_valid())
         self.assertTrue({'password_mismatch': 
@@ -169,25 +169,25 @@ class AccountsFormTests(TestCase):
                         form.error_messages
                         )
 
-    def test_EditProfileForm_valid(self):
+    def test_edit_profile_form_valid(self):
         form = EditProfileForm(data=edit_data)
         self.assertTrue(form.is_valid())
         self.assertTrue(form.cleaned_data['bio'],
                         'Lorum Ipsum')
 
-    def test_EditProfileForm_not_valid(self):
+    def test_edit_profile_form_not_valid(self):
         form = EditProfileForm(data={})
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors['display_name'],
                          ['This field is required.'])
 
-    def test_SkillForm_valid(self):
+    def test_skill_form_valid(self):
         form = SkillForm(data=skill_data)
         self.assertTrue(form.is_valid())
         self.assertTrue(form.cleaned_data['skill_type'],
                         'Django Developer')
 
-    def test_SkillFormSet_valid(self):
+    def test_skill_form_set_valid(self):
         formset = SkillFormSet(data=skill_formset_data)
         self.assertTrue(formset.is_valid())
         self.assertTrue(formset.cleaned_data[0]['skill_type'],
