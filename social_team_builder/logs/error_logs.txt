@@ -1,0 +1,362 @@
+Internal Server Error: /projects/edit/23
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/backends/utils.py", line 65, in execute
+    return self.cursor.execute(sql, params)
+psycopg2.IntegrityError: duplicate key value violates unique constraint "projects_position_project_id_skill_id_2b8c478b_uniq"
+DETAIL:  Key (project_id, skill_id)=(23, 12) already exists.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/contrib/auth/mixins.py", line 56, in dispatch
+    return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/edit.py", line 240, in post
+    return super(BaseUpdateView, self).post(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/edit.py", line 183, in post
+    return self.form_valid(form)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/social_team_builder/social_team_builder/projects/views.py", line 148, in form_valid
+    project=self.object)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/query.py", line 393, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/base.py", line 806, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/base.py", line 836, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/base.py", line 922, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/base.py", line 961, in _do_insert
+    using=using, raw=raw)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/query.py", line 1060, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/sql/compiler.py", line 1099, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/backends/utils.py", line 65, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/utils.py", line 94, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/backends/utils.py", line 65, in execute
+    return self.cursor.execute(sql, params)
+django.db.utils.IntegrityError: duplicate key value violates unique constraint "projects_position_project_id_skill_id_2b8c478b_uniq"
+DETAIL:  Key (project_id, skill_id)=(23, 12) already exists.
+
+Internal Server Error: /projects/edit/23
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/backends/utils.py", line 65, in execute
+    return self.cursor.execute(sql, params)
+psycopg2.IntegrityError: duplicate key value violates unique constraint "projects_position_project_id_skill_id_2b8c478b_uniq"
+DETAIL:  Key (project_id, skill_id)=(23, 12) already exists.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/contrib/auth/mixins.py", line 56, in dispatch
+    return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/edit.py", line 240, in post
+    return super(BaseUpdateView, self).post(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/edit.py", line 183, in post
+    return self.form_valid(form)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/social_team_builder/social_team_builder/projects/views.py", line 148, in form_valid
+    project=self.object)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/query.py", line 393, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/base.py", line 806, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/base.py", line 836, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/base.py", line 922, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/base.py", line 961, in _do_insert
+    using=using, raw=raw)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/query.py", line 1060, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/sql/compiler.py", line 1099, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/backends/utils.py", line 65, in execute
+    return self.cursor.execute(sql, params)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/utils.py", line 94, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/backends/utils.py", line 65, in execute
+    return self.cursor.execute(sql, params)
+django.db.utils.IntegrityError: duplicate key value violates unique constraint "projects_position_project_id_skill_id_2b8c478b_uniq"
+DETAIL:  Key (project_id, skill_id)=(23, 12) already exists.
+
+Internal Server Error: /projects/edit/23
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/datastructures.py", line 83, in __getitem__
+    list_ = super(MultiValueDict, self).__getitem__(key)
+KeyError: 'form-0-id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/contrib/auth/mixins.py", line 56, in dispatch
+    return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/edit.py", line 240, in post
+    return super(BaseUpdateView, self).post(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/edit.py", line 183, in post
+    return self.form_valid(form)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/social_team_builder/social_team_builder/projects/views.py", line 128, in form_valid
+    if form.is_valid() and positions.is_valid():
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 321, in is_valid
+    self.errors
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 295, in errors
+    self.full_clean()
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 344, in full_clean
+    form = self.forms[i]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 144, in forms
+    for i in range(self.total_form_count())]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 144, in <listcomp>
+    for i in range(self.total_form_count())]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/models.py", line 591, in _construct_form
+    pk = self.data[pk_key]
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/datastructures.py", line 85, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+django.utils.datastructures.MultiValueDictKeyError: "'form-0-id'"
+Internal Server Error: /projects/filter/26
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 79, in count
+    return self.object_list.count()
+AttributeError: 'NoneType' object has no attribute 'count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/list.py", line 174, in get
+    context = self.get_context_data()
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/list.py", line 134, in get_context_data
+    paginator, page, queryset, is_paginated = self.paginate_queryset(queryset, page_size)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/list.py", line 78, in paginate_queryset
+    page = paginator.page(page_number)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 57, in page
+    number = self.validate_number(number)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 46, in validate_number
+    if number > self.num_pages:
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 91, in num_pages
+    if self.count == 0 and not self.allow_empty_first_page:
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 84, in count
+    return len(self.object_list)
+TypeError: object of type 'NoneType' has no len()
+Internal Server Error: /projects/filter/25
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 79, in count
+    return self.object_list.count()
+AttributeError: 'NoneType' object has no attribute 'count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/list.py", line 174, in get
+    context = self.get_context_data()
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/list.py", line 134, in get_context_data
+    paginator, page, queryset, is_paginated = self.paginate_queryset(queryset, page_size)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/list.py", line 78, in paginate_queryset
+    page = paginator.page(page_number)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 57, in page
+    number = self.validate_number(number)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 46, in validate_number
+    if number > self.num_pages:
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 91, in num_pages
+    if self.count == 0 and not self.allow_empty_first_page:
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 84, in count
+    return len(self.object_list)
+TypeError: object of type 'NoneType' has no len()
+Internal Server Error: /projects/filter/25
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 79, in count
+    return self.object_list.count()
+AttributeError: 'NoneType' object has no attribute 'count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/list.py", line 174, in get
+    context = self.get_context_data()
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/list.py", line 134, in get_context_data
+    paginator, page, queryset, is_paginated = self.paginate_queryset(queryset, page_size)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/list.py", line 78, in paginate_queryset
+    page = paginator.page(page_number)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 57, in page
+    number = self.validate_number(number)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 46, in validate_number
+    if number > self.num_pages:
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 91, in num_pages
+    if self.count == 0 and not self.allow_empty_first_page:
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 84, in count
+    return len(self.object_list)
+TypeError: object of type 'NoneType' has no len()
+Internal Server Error: /projects/filter/25
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 79, in count
+    return self.object_list.count()
+AttributeError: 'NoneType' object has no attribute 'count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/list.py", line 174, in get
+    context = self.get_context_data()
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/list.py", line 134, in get_context_data
+    paginator, page, queryset, is_paginated = self.paginate_queryset(queryset, page_size)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/list.py", line 78, in paginate_queryset
+    page = paginator.page(page_number)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 57, in page
+    number = self.validate_number(number)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 46, in validate_number
+    if number > self.num_pages:
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 91, in num_pages
+    if self.count == 0 and not self.allow_empty_first_page:
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/paginator.py", line 84, in count
+    return len(self.object_list)
+TypeError: object of type 'NoneType' has no len()
+Internal Server Error: /projects/apply/13
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/contrib/auth/mixins.py", line 56, in dispatch
+    return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/social_team_builder/social_team_builder/projects/views.py", line 282, in get
+    position = models.Position.objects.get(pk=self.kwargs['pk'])
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/db/models/query.py", line 379, in get
+    self.model._meta.object_name
+projects.models.DoesNotExist: Position matching query does not exist.
+Internal Server Error: /projects/add_skill/
+Traceback (most recent call last):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/exception.py", line 41, in inner
+    response = get_response(request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 187, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/contrib/auth/mixins.py", line 56, in dispatch
+    return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/social_team_builder/social_team_builder/projects/views.py", line 410, in post
+    if formset.is_valid():
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 321, in is_valid
+    self.errors
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 295, in errors
+    self.full_clean()
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 343, in full_clean
+    for i in range(0, self.total_form_count()):
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 116, in total_form_count
+    return min(self.management_form.cleaned_data[TOTAL_FORM_COUNT], self.absolute_max)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/stuartmcintosh/Code/Python/treehouse_projects/social_team_builder/venv/lib/python3.6/site-packages/django/forms/formsets.py", line 98, in management_form
+    code='missing_management_form',
+django.core.exceptions.ValidationError: ['ManagementForm data is missing or has been tampered with']

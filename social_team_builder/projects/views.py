@@ -342,7 +342,7 @@ class ApplicationAcceptView(LoginRequiredMixin, RedirectView):
         Arguments:
             pk = Position being applied for
             id = of the applicant
-            decsion = accepted or rejected
+            decsion = accepted (1) or rejected (0)
         Returns:
             Redirects back to the applications page
         '''
