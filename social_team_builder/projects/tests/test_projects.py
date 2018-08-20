@@ -379,4 +379,4 @@ class PorjectFormTests(BaseTestCase):
         formset = PositionFormSet(data=data)
         self.assertTrue(formset.is_valid())
         self.assertTrue(formset.cleaned_data[0]['skill'],
-                        'Python Devloper')
+                        'Python Developer')
