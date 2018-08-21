@@ -47,7 +47,7 @@ class User(AbstractUser):
                             image)
                     )
         else:
-            self.avatar = '/default_avatar.jpeg'
+            self.avatar = 'default_avatar.jpeg'
             # add in username
         self.username = '@{}'.format(self.display_name.replace(' ', ''))
 
