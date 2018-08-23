@@ -4,15 +4,18 @@
 {% block title_tag %}Project Details | {{ block.super }}{% endblock %}
 {% block body_content %}
 
-<div class="circle--actions--bar">
-  <div class="bounds">
-    <div class="grid-100">
-      <a class="button" href="{% url 'projects:edit' pk=project_detail.id %}">Edit Project</a>
-      <a class="button button-text" href="{% url 'projects:delete' pk=project_detail.id %}">Delete Project</a>
-      <a class="button button-text" href="{% url 'projects:completed' pk=project_detail.id %}">Project Completed</a>
+{% if user.username == project_detail.owner.username %}
+  <div class="circle--actions--bar">
+    <div class="bounds">
+      <div class="grid-100">
+        <a class="button" href="{% url 'projects:edit' pk=project_detail.id %}">Edit Project</a>
+        <a class="button button-text" href="{% url 'projects:delete' pk=project_detail.id %}">Delete Project</a>
+        <a class="button button-text" href="{% url 'projects:completed' pk=project_detail.id %}">Project Completed</a>
+      </div>
     </div>
   </div>
-</div>
+{% endif %}
+
 
 {% include "_messages.html" %}
 
